@@ -1,0 +1,42 @@
+plugins {
+  id 'org.springframework.boot' version '2.6.0'
+  id 'io.spring.dependency-management' version '1.0.11.RELEASE'
+  id 'java'
+  id 'eclipse'
+}
+
+group = 'com.eomcs'
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = '11'
+
+repositories {
+  mavenCentral()
+}
+
+dependencies {
+  // spring-webmvc 관련 라이브러리
+  implementation ('org.springframework.boot:spring-boot-starter-web') {
+    exclude group: 'org.springframework.boot', module: 'spring-boot-starter-tomcat'
+  }
+    
+  // Undertow 서블릿 컨테이너
+  implementation 'org.springframework.boot:spring-boot-starter-undertow'
+    
+  // Thymeleaf 관련 라이브러리
+  implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
+
+  implementation 'org.apache.commons:commons-text:1.9'
+  developmentOnly 'org.springframework.boot:spring-boot-devtools'
+  testImplementation 'org.springframework.boot:spring-boot-starter-test'
+}
+
+test {
+  useJUnitPlatform()
+}
+
+// eclipse 프로젝트 이름을 설정하기
+eclipse {
+    project {
+        name = "eomcs-web"
+    }
+}
