@@ -26,14 +26,14 @@
       return response.json();
     })
     .then(function(contacts){
-      for (var contact of contacts) {
-      var arr = contact.split(",")
-      console.log(arr)
+      for (var arr of contacts) {
+      var contact = arr.split(",")
+      console.log(contact)
       var tr = document.createElement("tr")
-      tr.innerHTML = `<td>${arr[0]}</td>
-                      <td>${arr[1]}</td>
-                      <td>${arr[2]}</td>
-                      <td>${arr[3]}</td>`
+      tr.innerHTML = `<td><a href="view.html?email=${contact[1]}">${contact[0]}</a></td>
+                      <td>${contact[1]}</td>
+                      <td>${contact[2]}</td>
+                      <td>${contact[3]}</td>`
       tbody.appendChild(tr)
     }
     })

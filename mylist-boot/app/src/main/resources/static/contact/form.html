@@ -7,10 +7,11 @@
 <body>
   <h1>새 연락처</h1>
   <form>
-    이름: <input id="x-name" type="text"><br>
-    이메일: <input id="x-email" type="text"><br>
-    전화: <input id="x-tel" type="text"><br>
+    이름*: <input id="x-name" type="text"><br>
+    이메일*: <input id="x-email" type="text"><br>
+    전화*: <input id="x-tel" type="text"><br>
     회사: <input id="x-company" type="text"><br>
+    별표(*) 항목은 필수 입력 항목입니다.<br>
     <button id="add-btn" type="button">추가</button>
     <button id="cancel-btn" type="button">취소</button>
   </form>
@@ -21,6 +22,11 @@
     var xCompany = document.querySelector("#x-company")
   
     document.querySelector("#add-btn").onclick = function() {
+      if (xName.value == "" || xEmail.value == "" || xTel.value == "") {
+        window.alert("필수 입력 항목이 비었습니다.")
+        return
+      }
+
       fetch(`/contact/add?name=${xName.value}&email=${xEmail.value}&tel=${xTel.value}&company=${xCompany.value}`)
       .then(function(){
         location.href = "index.html"
