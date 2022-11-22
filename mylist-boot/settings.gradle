@@ -1,0 +1,2 @@
+rootProject.name = 'mylist-boot'
+include('app')
