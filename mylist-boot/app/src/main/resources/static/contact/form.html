@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>연락처</title>
+</head>
+<body>
+  <h1>새 연락처</h1>
+  <form>
+    이름: <input id="x-name" type="text"><br>
+    이메일: <input id="x-email" type="text"><br>
+    전화: <input id="x-tel" type="text"><br>
+    회사: <input id="x-company" type="text"><br>
+    <button id="add-btn" type="button">추가</button>
+    <button id="cancel-btn" type="button">취소</button>
+  </form>
+  <script>
+    var xName = document.querySelector("#x-name")
+    var xEmail = document.querySelector("#x-email")
+    var xTel = document.querySelector("#x-tel")
+    var xCompany = document.querySelector("#x-company")
+  
+    document.querySelector("#add-btn").onclick = function() {
+      fetch(`/contact/add?name=${xName.value}&email=${xEmail.value}&tel=${xTel.value}&company=${xCompany.value}`)
+      .then(function(){
+        location.href = "index.html"
+      })
+    }
+    document.querySelector("#cancel-btn").onclick = function() {
+      window.location.href = "index.html"
+    }
+  </script>
+</body>
+</html>
