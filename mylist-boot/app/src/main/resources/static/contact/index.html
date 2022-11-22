@@ -18,20 +18,22 @@
     </tbody>
   </table>
   <script>
-    // var contacts = [
-    //   "홍길동1,hong@test.com,010-0000-1111,비트캠프",
-    //   "홍길동2,hong@test.com,010-0000-1111,비트캠프",
-    //   "홍길동3,hong@test.com,010-0000-1111,비트캠프"
-    // ]
+    var contacts = [
+      "홍길동1,hong@test.com,010-0000-1111,비트캠프",
+      "홍길동2,hong@test.com,010-0000-1111,비트캠프",
+      "홍길동3,hong@test.com,010-0000-1111,비트캠프"
+    ]
 
     var tbody = document.querySelector("#contact-tbl")
 
-    for (var i = 0; i < 3; i++) {
+    for (var contact of contacts) {
+      var arr = contact.split(",")
+      console.log(arr)
       var tr = document.createElement("tr")
-      tr.innerHTML = `<td>홍길동</td>
-                      <td>hong@test.com</td>
-                      <td>010-0000-1111</td>
-                      <td>비트캠프</td>`
+      tr.innerHTML = `<td>${arr[0]}</td>
+                      <td>${arr[1]}</td>
+                      <td>${arr[2]}</td>
+                      <td>${arr[3]}</td>`
       tbody.appendChild(tr)
     }
   </script>
