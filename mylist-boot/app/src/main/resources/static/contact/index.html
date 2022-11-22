@@ -5,24 +5,35 @@
   <title>연락처</title>
 </head>
 <body>
-  <table>
+  <h1>연락처</h1>
+  <table border="1">
     <thead>
       <th>이름</th>
       <th>이메일</th>
       <th>전화</th>
       <th>회사</th>
     </thead>
-    <tbody>
-      <tr>
-        <td>홍길동</td>
-        <td>hong@test.com</td>
-        <td>010-0000-1111</td>
-        <td>홍컴퍼니</td>
-      </tr>
+    <tbody id="contact-tbl">
+
     </tbody>
   </table>
   <script>
-    
+    // var contacts = [
+    //   "홍길동1,hong@test.com,010-0000-1111,비트캠프",
+    //   "홍길동2,hong@test.com,010-0000-1111,비트캠프",
+    //   "홍길동3,hong@test.com,010-0000-1111,비트캠프"
+    // ]
+
+    var tbody = document.querySelector("#contact-tbl")
+
+    for (var i = 0; i < 3; i++) {
+      var tr = document.createElement("tr")
+      tr.innerHTML = `<td>홍길동</td>
+                      <td>hong@test.com</td>
+                      <td>010-0000-1111</td>
+                      <td>비트캠프</td>`
+      tbody.appendChild(tr)
+    }
   </script>
 </body>
 </html>
