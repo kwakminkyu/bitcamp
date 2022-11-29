@@ -53,12 +53,12 @@ public class ContactController {
     return 1;
   }
 
-  //
+  //입력 받은 파라미터를 CSV형식의 문자열로 만들어준다.
   String createCSV(String name, String email, String tel, String company) {
     return name + "," + email + "," + tel + "," + company;
   }
 
-  //이메일로 
+  //이메일로 연락처 정보를 찾는다.
   int indexOf(String email) {
     for (int i = 0; i < size; i++) {
       if (contacts[i].split(",")[1].equals(email)) {
@@ -68,7 +68,7 @@ public class ContactController {
     return -1;
   }
 
-  //
+  //배열에서 지정한 항목을 삭제한다.
   String remove(int index) {
     String old = contacts[index];
     for (int i = index + 1; i < size; i++) {
