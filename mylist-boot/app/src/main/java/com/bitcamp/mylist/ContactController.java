@@ -20,7 +20,7 @@ public class ContactController {
 
   @GetMapping("/contact/add")
   public Object add(String name, String email, String tel, String company) {
-    contacts[size++] = name + "," + email + "," + tel + "," + company;
+    contacts[size++] = createCSV(name, email, tel, company);
     return size;
   }
 
@@ -36,10 +36,9 @@ public class ContactController {
 
   @GetMapping("/contact/update")
   public Object update(String name, String email, String tel, String company) {
-    String contact = name + "," + email + "," + tel + "," + company;
     for (int i = 0; i < size; i++) {
       if (email.equals(contacts[i].split(",")[1])) {
-        contacts[i] = contact;
+        contacts[i] = createCSV(name, email, tel, company);
       }
     }
     return 1;
@@ -56,5 +55,9 @@ public class ContactController {
       }
     }
     return 1;
+  }
+
+  String createCSV(String name, String email, String tel, String company) {
+    return name + "," + email + "," + tel + "," + company;
   }
 }
