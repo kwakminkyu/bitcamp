@@ -26,38 +26,55 @@ public class ContactController {
 
   @GetMapping("/contact/get")
   public Object get(String email) {
-    for (int i = 0; i < size; i++) {
-      if (email.equals(contacts[i].split(",")[1])) {
-        return contacts[i];
-      }
+    int index = indexOf(email);
+    if(index == -1) {
+      return 0;
     }
-    return 1;
+    return contacts[index];
   }
 
   @GetMapping("/contact/update")
   public Object update(String name, String email, String tel, String company) {
-    for (int i = 0; i < size; i++) {
-      if (email.equals(contacts[i].split(",")[1])) {
-        contacts[i] = createCSV(name, email, tel, company);
-      }
+    int index = indexOf(email);
+    if(index == -1) {
+      return 0;
     }
+    contacts[index] = createCSV(name,email,tel,company);
     return 1;
   }
 
   @GetMapping("/contact/delet")
   public Object delet(String email) {
-    for (int i = 0; i < size; i++) {
-      if (email.equals(contacts[i].split(",")[1])) {
-        for (int j = i + 1; j < size; j++) {
-          contacts[j - 1] = contacts[j];
-        }
-        size--;
-      }
+    int index = indexOf(email);
+    if(index == -1) {
+      return 0;
     }
+    remove(index);
     return 1;
   }
 
+  //
   String createCSV(String name, String email, String tel, String company) {
     return name + "," + email + "," + tel + "," + company;
+  }
+
+  //이메일로 
+  int indexOf(String email) {
+    for (int i = 0; i < size; i++) {
+      if (contacts[i].split(",")[1].equals(email)) {
+        return i;
+      }
+    }
+    return -1;
+  }
+
+  //
+  String remove(int index) {
+    String old = contacts[index];
+    for (int i = index + 1; i < size; i++) {
+      contacts[i-1] = contacts[i];
+    }
+    size--;
+    return old;
   }
 }
