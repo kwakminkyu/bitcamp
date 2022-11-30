@@ -83,15 +83,16 @@ public class ContactController {
     return old;
   }
 
-  // 배열의 크기를 늘린다.
+  // 기존 배열을 새 배열에 복사한다.
   String[] grow() {
-    int newCapacity = contacts.length + (contacts.length >> 1);
-    String[] arr = new String[newCapacity];
-
-    // 새 배열에 기존 배열의 값을 복사
+    String[] arr = new String[newLength()];
     for (int i = 0; i < contacts.length; i++ ) {
       arr[i] = contacts[i];
     }
     return arr;
+  }
+  // 배열을 크기를 늘린다.
+  int newLength() {
+    return contacts.length + (contacts.length >> 1);
   }
 }
