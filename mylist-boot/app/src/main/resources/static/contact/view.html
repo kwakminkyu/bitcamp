@@ -43,16 +43,14 @@
     //서버에서 데이터 가져오기
     fetch(`/contact/get?email=${email}`)
     .then(function(response){
-      return response.text()
+      return response.json()
     })
     .then(function(contact){
-      var value = contact.split(",")
-
     // 화면에 내용 출력
-      xName.value = value[0]
-      xEmail.value = value[1]
-      xTel.value = value[2]
-      xCompany.value = value[3]
+      xName.value = contact.name
+      xEmail.value = contact.email
+      xTel.value = contact.tel
+      xCompany.value = contact.company
     })
 
     document.querySelector("#update-btn").onclick = function() {
