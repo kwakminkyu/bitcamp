@@ -6,14 +6,11 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class ContactController {
 
-  Contact[] contacts = new Contact[5];
-  int size = 0;
-
   @GetMapping("/contact/list")
   public Object list() {
-    Contact[] list = new Contact[size];
-    for(int i = 0; i < size; i++) {
-      list[i] = contacts[i];
+    Contact[] list = new Contact[ArrayList.size];
+    for(int i = 0; i < ArrayList.size; i++) {
+      list[i] = ArrayList.contacts[i];
     }
     return list;
   }
@@ -21,82 +18,40 @@ public class ContactController {
   @GetMapping("/contact/add")
   public Object add(Contact contact) {
     // 배열이 꽉 찼는지 검사.
-    if (size == contacts.length) {
+    if (ArrayList.size == ArrayList.contacts.length) {
       // 꽉 찼을 경우 매서드 실행.
-      contacts = grow();
+      ArrayList.contacts = ArrayList.grow();
     }
-    contacts[size++] = contact;
-    return size;
+    ArrayList.contacts[ArrayList.size++] = contact;
+    return ArrayList.size;
   }
 
   @GetMapping("/contact/get")
   public Object get(String email) {
-    int index = indexOf(email);
+    int index = ArrayList.indexOf(email);
     if(index == -1) {
       return "";
     }
-    return contacts[index];
+    return ArrayList.contacts[index];
   }
 
   @GetMapping("/contact/update")
   public Object update(Contact contact) {
-    int index = indexOf(contact.email);
+    int index = ArrayList.indexOf(contact.email);
     if(index == -1) {
       return 0;
     }
-    contacts[index] = contact;
+    ArrayList.contacts[index] = contact;
     return 1;
   }
 
   @GetMapping("/contact/delet")
   public Object delet(String email) {
-    int index = indexOf(email);
+    int index = ArrayList.indexOf(email);
     if(index == -1) {
       return 0;
     }
-    remove(index);
+    ArrayList.remove(index);
     return 1;
-  }
-
-  //이메일로 연락처 정보를 찾는다.
-  int indexOf(String email) {
-    for (int i = 0; i < size; i++) {
-      if (contacts[i].email.equals(email)) {
-        return i;
-      }
-    }
-    return -1;
-  }
-
-  //배열에서 지정한 항목을 삭제한다.
-  Contact remove(int index) {
-    Contact old = contacts[index];
-    for (int i = index + 1; i < size; i++) {
-      contacts[i-1] = contacts[i];
-    }
-    size--;
-    return old;
-  }
-
-  // 기존 배열을 새 배열에 복사한다.
-  Contact[] grow() {
-    Contact[] arr = new Contact[newLength()];
-    copy(contacts, arr);
-    return arr;
-  }
-  // 배열을 크기를 늘린다.
-  int newLength() {
-    return contacts.length + (contacts.length >> 1);
-  }
-  // 배열을 복사한다.
-  void copy(Contact[] source, Contact[] target) {
-    // 개발자가 잘못 사용할 것을 대비한 코드를 추가한다.
-    int length = source.length;
-    if (target.length < source.length) {
-      length = target.length;
-    }
-    for (int i = 0; i < length; i++) {
-      target[i] = source[i];
-    }
   }
 }
