@@ -47,4 +47,33 @@ public class ArrayList {
     size--;
     return old;
   }
+
+  // 기존 배열의 목록을 새 배열에 담는다.
+  static Contact[] toArray() {
+    Contact[] arr = new Contact[size];
+    for (int i = 0; i < size; i++) {
+      arr[i] = contacts[i];
+    }
+    return arr;
+  }
+
+  static void add(Contact contact) {
+    // 배열이 꽉 찼는지 검사.
+    if (size == contacts.length) {
+      // 꽉 찼을 경우 매서드 실행.
+      contacts = grow();
+    }
+    contacts[size++] = contact;
+  }
+
+  // 특정 위치에 배열의 값을 변경한다.
+  // 변경전 값을 리턴
+  static Contact set(int index, Contact contact) {
+    if (index < 0 || index >= size) {
+      return null;
+    }
+    Contact old = contacts[index];
+    contacts[index] = contact;
+    return old;
+  }
 }

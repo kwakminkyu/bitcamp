@@ -8,21 +8,12 @@ public class ContactController {
 
   @GetMapping("/contact/list")
   public Object list() {
-    Contact[] list = new Contact[ArrayList.size];
-    for(int i = 0; i < ArrayList.size; i++) {
-      list[i] = ArrayList.contacts[i];
-    }
-    return list;
+    return ArrayList.toArray();
   }
 
   @GetMapping("/contact/add")
   public Object add(Contact contact) {
-    // 배열이 꽉 찼는지 검사.
-    if (ArrayList.size == ArrayList.contacts.length) {
-      // 꽉 찼을 경우 매서드 실행.
-      ArrayList.contacts = ArrayList.grow();
-    }
-    ArrayList.contacts[ArrayList.size++] = contact;
+    ArrayList.add(contact);
     return ArrayList.size;
   }
 
@@ -41,8 +32,7 @@ public class ContactController {
     if(index == -1) {
       return 0;
     }
-    ArrayList.contacts[index] = contact;
-    return 1;
+    return ArrayList.set(index, contact) == null ? 0 : 1;
   }
 
   @GetMapping("/contact/delet")
