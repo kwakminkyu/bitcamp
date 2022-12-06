@@ -17,14 +17,6 @@ public class TodoController {
     return ArrayList2.size;
   }
 
-  @GetMapping("/todo/get")
-  public Object get(int index) {
-    if(index < 0 || index >= ArrayList2.size) {
-      return "";
-    }
-    return ArrayList2.list[index];
-  }
-
   @GetMapping("/todo/update")
   public Object update(int index, Todo todo) {
     if(index < 0 || index >= ArrayList2.size) {

@@ -10,7 +10,8 @@
   <table border="1">
     <thead>
       <th>해야 할 일</th>
-      <th><input type="checkbox" id="todo-all"></th>
+      <th>완료</th>
+      <th>삭제</th>
     </thead>
     <tbody id="todo-tbl">
 
@@ -18,6 +19,24 @@
   </table>
   <script>
     var tbody = document.querySelector("#todo-tbl")
+
+    // 삭제 버튼은 동적 태그 이므로 부모 태그에 이벤트를 준다.
+    tbody.onclick = function(e) {
+      if (e.target instanceof HTMLButtonElement) {
+        var no = e.target.getAttribute("data-no")
+        fetch(`/todo/delet?index=${no}`)
+        .then(function(response){
+          return response.json()
+        })
+        .then(function(result){
+          if (result == 0) {
+            window.alert("삭제 실패")
+          } else {
+            location.reload()
+          }
+        })
+      }
+    }
 
     fetch("/todo/list")
     .then(function(response){
@@ -28,7 +47,8 @@
       for (var i = 0; i < todoList.length; i++) {
       var tr = document.createElement("tr")
       tr.innerHTML = `<td>${todoList[i].title}</td>
-                      <td><input type="checkbox"></td>`
+                      <td><input type="checkbox"></td>
+                      <td><button type="button" data-no=${i}>삭제</td>`
       tbody.appendChild(tr)
     }
     })
