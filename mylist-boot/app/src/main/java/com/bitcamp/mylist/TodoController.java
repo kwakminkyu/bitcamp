@@ -25,7 +25,7 @@ public class TodoController {
     return ArrayList2.set(index, todo) == null ? 0 : 1;
   }
 
-  @GetMapping("/todo/delet")
+  @GetMapping("/todo/delete")
   public Object delet(int index) {
     if(index < 0 || index >= ArrayList2.size) {
       return 0;

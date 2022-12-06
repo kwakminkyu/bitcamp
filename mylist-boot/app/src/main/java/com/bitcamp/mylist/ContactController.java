@@ -35,7 +35,7 @@ public class ContactController {
     return ArrayList.set(index, contact) == null ? 0 : 1;
   }
 
-  @GetMapping("/contact/delet")
+  @GetMapping("/contact/delete")
   public Object delet(String email) {
     int index = ArrayList.indexOf(email);
     if(index == -1) {
