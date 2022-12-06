@@ -48,23 +48,23 @@ public class ArrayList2 {
     return arr;
   }
 
-  static void add(Todo contact) {
+  static void add(Todo todo) {
     // 배열이 꽉 찼는지 검사.
     if (size == list.length) {
       // 꽉 찼을 경우 매서드 실행.
       list = grow();
     }
-    list[size++] = contact;
+    list[size++] = todo;
   }
 
   // 특정 위치에 배열의 값을 변경한다.
   // 변경전 값을 리턴
-  static Todo set(int index, Todo contact) {
+  static Todo set(int index, Todo todo) {
     if (index < 0 || index >= size) {
       return null;
     }
     Todo old = list[index];
-    list[index] = contact;
+    list[index] = todo;
     return old;
   }
 }

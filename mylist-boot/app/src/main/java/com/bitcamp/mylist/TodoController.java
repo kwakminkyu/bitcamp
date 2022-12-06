@@ -25,6 +25,15 @@ public class TodoController {
     return ArrayList2.set(index, todo) == null ? 0 : 1;
   }
 
+  @GetMapping("/todo/check")
+  public Object check(int index, boolean done) {
+    if(index < 0 || index >= ArrayList2.size) {
+      return 0;
+    }
+    ArrayList2.list[index].done = done;
+    return 1;
+  }
+
   @GetMapping("/todo/delete")
   public Object delet(int index) {
     if(index < 0 || index >= ArrayList2.size) {
