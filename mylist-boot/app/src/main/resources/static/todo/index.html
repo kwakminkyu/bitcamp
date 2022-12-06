@@ -3,6 +3,11 @@
 <head>
   <meta charset="UTF-8">
   <title>To-do</title>
+  <style>
+    .todo-checked {
+      text-decoration: line-through;
+    }
+  </style>
 </head>
 <body>
   <h1>To-do</h1>
@@ -70,9 +75,9 @@
     function checkTodo(no, checked) {
       var titleTd = document.querySelector(`tbody td[data-no="${no}"]`)
       if (checked) {
-        titleTd.style["text-decoration"] = "line-through"
+        titleTd.classList.add("todo-checked")
       } else {
-        titleTd.style["text-decoration"] = "none"
+        titleTd.classList.remove("todo-checked")
       }
     }
   </script>
