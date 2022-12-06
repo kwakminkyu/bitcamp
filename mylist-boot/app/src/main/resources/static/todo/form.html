@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>To-do</title>
+</head>
+<body>
+  <h1>To-do</h1>
+  <form>
+    할 일: <input id="x-title" type="text"><br>
+    <button id="add-btn" type="button">추가</button>
+    <button id="cancel-btn" type="button">취소</button>
+  </form>
+  <script>
+    var xTitle = document.querySelector("#x-title")
+  
+    document.querySelector("#add-btn").onclick = function() {
+      if (xTitle.value == "") {
+        window.alert("필수 입력 항목이 비었습니다.")
+        return
+      }
+
+      fetch(`/todo/add?title=${xTitle.value}`)
+      .then(function(){
+        location.href = "index.html"
+      })
+    }
+    
+    document.querySelector("#cancel-btn").onclick = function() {
+      window.location.href = "index.html"
+    }
+  </script>
+</body>
+</html>

@@ -54,17 +54,23 @@
     })
 
     document.querySelector("#update-btn").onclick = function() {
+      if (xName.value == "" || xEmail.value == "" || xTel.value == "") {
+        window.alert("필수 입력 항목이 비었습니다.")
+        return
+      }
       fetch(`/contact/update?name=${xName.value}&email=${xEmail.value}&tel=${xTel.value}&company=${xCompany.value}`)
       .then(function(){
         location.href = "index.html"
       })
     }
+
     document.querySelector("#delet-btn").onclick = function() {
       fetch(`/contact/delet?email=${xEmail.value}`)
       .then(function(){
         location.href = "index.html"
       })
     }
+    
     document.querySelector("#cancel-btn").onclick = function() {
       window.location.href = "index.html"
     }
