@@ -17,6 +17,7 @@
     <thead>
       <th><input type="checkbox" id="todo-all"></th>
       <th>해야 할 일</th>
+      <th>변경</th>
       <th>삭제</th>
     </thead>
     <tbody id="todo-tbl">
@@ -24,6 +25,9 @@
     </tbody>
   </table>
   <script>
+    var titleInput = document.createElement("#title-input")
+    titleInput.style["display"] = "none"
+
     var tbody = document.querySelector("#todo-tbl")
 
     // 삭제 버튼은 동적 태그 이므로 부모 태그에 이벤트를 준다.
@@ -59,11 +63,20 @@
         titleTdOption = "class='todo-checked'"
       }
       tr.innerHTML = `<td><input type="checkbox" ${checkedOption} onchange="checkTodo(${i}, event.target.checked)"></td>
-                      <td data-no="${i}" ${titleTdOption}>${todoList[i].title}</td>
+                      <td data-no="${i}" ${titleTdOption}><span>${todoList[i].title}</span></td>
+                      <td><button type="button" onclick="updateTodo(${i})">변경</td>
                       <td><button type="button" onclick="deleteTodo(${i})">삭제</td>`
       tbody.appendChild(tr)
     }
     })
+
+    function updateTodo(no) {
+      var titleTd = document.querySelector(`tbody td[data-no="${no}"]`)
+      var titleSpan = titleTd.querySelector("span")
+      titleSpan.style["display"] = "none"
+      titleInput.value  = titleSpan.innerHTML
+      titleTd.appendChild(titleInput)
+    }
 
     function deleteTodo(no) {
       fetch(`/todo/delete?index=${no}`)
