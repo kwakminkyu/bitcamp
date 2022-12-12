@@ -24,8 +24,11 @@
 
     </tbody>
   </table>
+
+  <input type="text" id="title-input">
+
   <script>
-    var titleInput = document.createElement("#title-input")
+    var titleInput = document.querySelector("#title-input")
     titleInput.style["display"] = "none"
 
     var tbody = document.querySelector("#todo-tbl")
@@ -73,7 +76,7 @@
     function updateTodo(no) {
       var titleTd = document.querySelector(`tbody td[data-no="${no}"]`)
       var titleSpan = titleTd.querySelector("span")
-      
+
       if (titleInput.parentNode instanceof HTMLTableCellElement) {
         titleInput.parentNode.querySelector("span").style["display"] = ""
       }
