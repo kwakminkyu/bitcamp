@@ -73,6 +73,10 @@
     function updateTodo(no) {
       var titleTd = document.querySelector(`tbody td[data-no="${no}"]`)
       var titleSpan = titleTd.querySelector("span")
+      
+      if (titleInput.parentNode instanceof HTMLTableCellElement) {
+        titleInput.parentNode.querySelector("span").style["display"] = ""
+      }
       titleSpan.style["display"] = "none"
       titleInput.value  = titleSpan.innerHTML
       titleTd.appendChild(titleInput)
