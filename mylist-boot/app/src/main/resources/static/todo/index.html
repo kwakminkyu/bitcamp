@@ -16,7 +16,7 @@
 </head>
 <body>
   <h1>To-do</h1>
-  <p><a href="form.html">추가</a></p>
+  <p>할 일 : <input id="todo-input" type="text"></p>
   <table border="1">
     <thead>
       <th><input type="checkbox" id="todo-all"></th>
@@ -36,6 +36,25 @@
     titleInput.style["display"] = "none"
 
     var tbody = document.querySelector("#todo-tbl")
+
+    document.querySelector("#todo-input").onkeyup = function(e) {
+      if (e.keyCode == 27) {
+        e.target.value = ""
+      } else if (e.keyCode == 13) {
+        if (e.target.value == "") {
+        window.alert("필수 입력 항목이 비었습니다.")
+        return
+        }
+        fetch(`/todo/add?title=${e.target.value}`)
+        .then(function(response){
+          return response.text()
+        })
+        .then(function(text){
+          console.log(text)
+          location.reload()
+        })
+      }
+    }
 
     // 삭제 버튼은 동적 태그 이므로 부모 태그에 이벤트를 준다.
     // tbody.onclick = function(e) {
@@ -76,6 +95,7 @@
                       <td><button type="button" onclick="deleteTodo(${i})">삭제</button></td>`
       tbody.appendChild(tr)
      }
+     document.querySelector("#todo-input").focus()
     })
 
     function updateTodo(no) {
