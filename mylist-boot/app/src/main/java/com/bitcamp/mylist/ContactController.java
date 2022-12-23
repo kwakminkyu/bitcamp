@@ -19,16 +19,16 @@ public class ContactController {
 
   @GetMapping("/contact/get")
   public Object get(String email) {
-    int index = ArrayList.indexOf(email);
+    int index = indexOf(email);
     if(index == -1) {
       return "";
     }
-    return ArrayList.contacts[index];
+    return ArrayList.list[index];
   }
 
   @GetMapping("/contact/update")
   public Object update(Contact contact) {
-    int index = ArrayList.indexOf(contact.email);
+    int index = indexOf(contact.email);
     if(index == -1) {
       return 0;
     }
@@ -37,11 +37,22 @@ public class ContactController {
 
   @GetMapping("/contact/delete")
   public Object delet(String email) {
-    int index = ArrayList.indexOf(email);
+    int index = indexOf(email);
     if(index == -1) {
       return 0;
     }
     ArrayList.remove(index);
     return 1;
+  }
+
+  //이메일로 연락처 정보를 찾는다.
+  static int indexOf(String email) {
+    for (int i = 0; i < ArrayList.size; i++) {
+      Contact contact = (Contact) ArrayList.list[i];
+      if (contact.email.equals(email)) {
+        return i;
+      }
+    }
+    return -1;
   }
 }
