@@ -48,8 +48,7 @@ public class ContactController {
   //이메일로 연락처 정보를 찾는다.
   static int indexOf(String email) {
     for (int i = 0; i < ArrayList.size; i++) {
-      Contact contact = (Contact) ArrayList.list[i];
-      if (contact.email.equals(email)) {
+      if (((Contact) ArrayList.list[i]).email.equals(email)) {
         return i;
       }
     }

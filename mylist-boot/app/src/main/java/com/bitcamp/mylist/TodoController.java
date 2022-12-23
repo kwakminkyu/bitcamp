@@ -30,7 +30,7 @@ public class TodoController {
     if(index < 0 || index >= ArrayList2.size) {
       return 0;
     }
-    ArrayList2.list[index].done = done;
+    ((Todo)ArrayList2.list[index]).done = done;
     return 1;
   }
 
