@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>게시판</title>
+</head>
+<body>
+  <h1>새 게시글</h1>
+  <form>
+    제목: <input id="x-title" type="text"><br>
+    내용: <textarea id="x-content" cols="60" rows="10"></textarea><br>
+    <button id="add-btn" type="button">추가</button>
+    <button id="cancel-btn" type="button">취소</button>
+  </form>
+  <script>
+    var xTitle = document.querySelector("#x-title")
+    var xContent = document.querySelector("#x-content")
+  
+    document.querySelector("#add-btn").onclick = function() {
+      if (xTitle.value == "" || xContent.value == "") {
+        window.alert("필수 입력 항목이 비었습니다.")
+        return
+      }
+
+      fetch(`/board/add?title=${xTitle.value}&content=${xContent.value}`)
+      .then(function(){
+        location.href = "index.html"
+      })
+    }
+    
+    document.querySelector("#cancel-btn").onclick = function() {
+      window.location.href = "index.html"
+    }
+  </script>
+</body>
+</html>

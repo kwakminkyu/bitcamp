@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>게시판</title>
+</head>
+<body>
+  <h1>게시판</h1>
+  <p><a href="form.html">새 게시글</a></p>
+  <table border="1">
+    <thead>
+      <th>제목</th>
+      <th>조회수</th>
+      <th>작성일</th>
+    </thead>
+    <tbody id="board-tbl">
+
+    </tbody>
+  </table>
+  <script>
+    var tbody = document.querySelector("#board-tbl")
+
+    fetch("/board/list")
+    .then(function(response){
+      return response.json();
+    })
+    .then(function(board){
+      for (var i = 0; i < board.length; i++) {
+      console.log(board)
+      var tr = document.createElement("tr")
+      tr.innerHTML = `<td><a href="view.html?index=${i}">${board[i].title}</a></td>
+                      <td>${board[i].viewCount}</td>
+                      <td>${board[i].createDate}</td>`
+      tbody.appendChild(tr)
+      } 
+    })
+  </script>
+</body>
+</html>
