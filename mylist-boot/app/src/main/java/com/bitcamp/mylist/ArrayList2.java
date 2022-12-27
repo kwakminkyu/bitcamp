@@ -49,6 +49,9 @@ public class ArrayList2 {
 
   //배열에서 지정한 항목을 삭제한다.
   static Object remove(int index) {
+    if (index < 0 || index >= size) {
+      return null;
+    }
     Object old = list[index];
     for (int i = index + 1; i < size; i++) {
       list[i-1] = list[i];
