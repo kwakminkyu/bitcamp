@@ -6,17 +6,17 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class ContactController {
 
-  ArrayList contacts = new ArrayList();
+  ArrayList contactList = new ArrayList();
 
   @GetMapping("/contact/list")
   public Object list() {
-    return ArrayList.toArray(contacts);
+    return ArrayList.toArray(contactList);
   }
 
   @GetMapping("/contact/add")
   public Object add(Contact contact) {
-    ArrayList.add(contacts, contact);
-    return contacts.size;
+    ArrayList.add(contactList, contact);
+    return contactList.size;
   }
 
   @GetMapping("/contact/get")
@@ -25,7 +25,7 @@ public class ContactController {
     if(index == -1) {
       return "";
     }
-    return contacts.list[index];
+    return contactList.list[index];
   }
 
   @GetMapping("/contact/update")
@@ -34,7 +34,7 @@ public class ContactController {
     if(index == -1) {
       return 0;
     }
-    return ArrayList.set(contacts, index, contact) == null ? 0 : 1;
+    return ArrayList.set(contactList, index, contact) == null ? 0 : 1;
   }
 
   @GetMapping("/contact/delete")
@@ -43,14 +43,14 @@ public class ContactController {
     if(index == -1) {
       return 0;
     }
-    ArrayList.remove(contacts, index);
+    ArrayList.remove(contactList, index);
     return 1;
   }
 
   //이메일로 연락처 정보를 찾는다.
   int indexOf(String email) {
-    for (int i = 0; i < contacts.size; i++) {
-      if (((Contact) contacts.list[i]).email.equals(email)) {
+    for (int i = 0; i < contactList.size; i++) {
+      if (((Contact) contactList.list[i]).email.equals(email)) {
         return i;
       }
     }
