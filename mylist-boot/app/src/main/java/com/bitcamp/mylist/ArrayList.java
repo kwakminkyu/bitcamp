@@ -2,41 +2,41 @@ package com.bitcamp.mylist;
 
 public class ArrayList {
 
-  static Object[] list = new Object[5];
-  static int size = 0;
+  Object[] list = new Object[5];
+  int size = 0;
 
   // 기존 배열의 목록을 새 배열에 담는다.
-  static Object[] toArray() {
-    Object[] arr = new Object[size];
-    for (int i = 0; i < size; i++) {
-      arr[i] = list[i];
+  static Object[] toArray(ArrayList that) {
+    Object[] arr = new Object[that.size];
+    for (int i = 0; i < that.size; i++) {
+      arr[i] = that.list[i];
     }
     return arr;
   }
 
-  static void add(Object obj) {
+  static void add(ArrayList that, Object obj) {
     // 배열이 꽉 찼는지 검사.
-    if (size == list.length) {
+    if (that.size == that.list.length) {
       // 꽉 찼을 경우 매서드 실행.
-      list = grow();
+      that.list = grow(that);
     }
-    list[size++] = obj;
+    that.list[that.size++] = obj;
   }
 
   // 기존 배열을 새 배열에 복사한다.
-  static Object[] grow() {
-    Object[] arr = new Object[newLength()];
-    copy(list, arr);
+  static Object[] grow(ArrayList that) {
+    Object[] arr = new Object[newLength(that)];
+    copy(that.list, arr);
     return arr;
   }
 
   // 배열을 크기를 늘린다.
-  static int newLength() {
-    return list.length + (list.length >> 1);
+  static int newLength(ArrayList that) {
+    return that.list.length + (that.list.length >> 1);
   }
 
   // 배열을 복사한다.
-  static void copy(Object[] source, Object[] target) {
+  static void copy(Object [] source, Object[] target) {
     // 개발자가 잘못 사용할 것을 대비한 코드를 추가한다.
     int length = source.length;
     if (target.length < source.length) {
@@ -48,26 +48,26 @@ public class ArrayList {
   }
 
   //배열에서 지정한 항목을 삭제한다.
-  static Object remove(int index) {
-    if (index < 0 || index >= size) {
+  static Object remove(ArrayList that, int index) {
+    if (index < 0 || index >= that.size) {
       return null;
     }
-    Object old = list[index];
-    for (int i = index + 1; i < size; i++) {
-      list[i-1] = list[i];
+    Object old = that.list[index];
+    for (int i = index + 1; i < that.size; i++) {
+      that.list[i-1] = that.list[i];
     }
-    size--;
+    that.size--;
     return old;
   }
 
   // 특정 위치에 배열의 값을 변경한다.
   // 변경전 값을 리턴
-  static Object set(int index, Object obj) {
-    if (index < 0 || index >= size) {
+  static Object set(ArrayList that, int index, Object obj) {
+    if (index < 0 || index >= that.size) {
       return null;
     }
-    Object old = list[index];
-    list[index] = obj;
+    Object old = that.list[index];
+    that.list[index] = obj;
     return old;
   }
 }
