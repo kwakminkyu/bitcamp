@@ -24,6 +24,9 @@ public class TodoController {
     if(index < 0 || index >= todoList.size) {
       return 0;
     }
+    Todo old = (Todo) todoList.list[index];
+    todo.done = old.done;
+
     return todoList.set(index, todo) == null ? 0 : 1;
   }
 
