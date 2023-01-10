@@ -11,13 +11,13 @@ public class BoardController {
 
   @GetMapping("/board/list")
   public Object list() {
-    return ArrayList.toArray(boardList);
+    return boardList.toArray();
   }
 
   @GetMapping("/board/add")
   public Object add(Board board) {
     board.setCreateDate(new Date(System.currentTimeMillis()));
-    ArrayList.add(boardList, board);
+    boardList.add(board);
     return boardList.size;
   }
 
@@ -39,7 +39,7 @@ public class BoardController {
     Board old = (Board) boardList.list[index];
     board.viewCount = old.viewCount;
     board.createDate = old.createDate;
-    return ArrayList.set(boardList, index, board) == null ? 0 : 1;
+    return boardList.set(index, board) == null ? 0 : 1;
   }
 
   @GetMapping("/board/delete")
@@ -47,6 +47,6 @@ public class BoardController {
     //    if(index < 0 || index >= ArrayList.size) {
     //      return 0;
     //    }
-    return ArrayList.remove(boardList, index) == null ? 0 : 1;
+    return boardList.remove(index) == null ? 0 : 1;
   }
 }

@@ -10,12 +10,12 @@ public class TodoController {
 
   @GetMapping("/todo/list")
   public Object list() {
-    return ArrayList.toArray(todoList);
+    return todoList.toArray();
   }
 
   @GetMapping("/todo/add")
   public Object add(Todo todo) {
-    ArrayList.add(todoList, todo);
+    todoList.add(todo);
     return todoList.size;
   }
 
@@ -24,7 +24,7 @@ public class TodoController {
     if(index < 0 || index >= todoList.size) {
       return 0;
     }
-    return ArrayList.set(todoList, index, todo) == null ? 0 : 1;
+    return todoList.set(index, todo) == null ? 0 : 1;
   }
 
   @GetMapping("/todo/check")
@@ -41,7 +41,7 @@ public class TodoController {
     //    if(index < 0 || index >= todoList.size) {
     //      return 0;
     //    }
-    ArrayList.remove(todoList, index);
+    todoList.remove(index);
     return 1;
   }
 }

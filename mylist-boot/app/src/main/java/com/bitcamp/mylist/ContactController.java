@@ -10,12 +10,12 @@ public class ContactController {
 
   @GetMapping("/contact/list")
   public Object list() {
-    return ArrayList.toArray(contactList);
+    return contactList.toArray();
   }
 
   @GetMapping("/contact/add")
   public Object add(Contact contact) {
-    ArrayList.add(contactList, contact);
+    contactList.add(contact);
     return contactList.size;
   }
 
@@ -34,7 +34,7 @@ public class ContactController {
     if(index == -1) {
       return 0;
     }
-    return ArrayList.set(contactList, index, contact) == null ? 0 : 1;
+    return contactList.set(index, contact) == null ? 0 : 1;
   }
 
   @GetMapping("/contact/delete")
@@ -43,7 +43,7 @@ public class ContactController {
     if(index == -1) {
       return 0;
     }
-    ArrayList.remove(contactList, index);
+    contactList.remove(index);
     return 1;
   }
 
