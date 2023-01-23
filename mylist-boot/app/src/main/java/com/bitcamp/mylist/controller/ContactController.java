@@ -1,12 +1,18 @@
-package com.bitcamp.mylist;
+package com.bitcamp.mylist.controller;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
+import com.bitcamp.mylist.domain.Contact;
+import com.bitcamp.util.ArrayList;
 
 @RestController
 public class ContactController {
 
   ArrayList contactList = new ArrayList();
+
+  public ContactController() {
+    System.out.println("ContactController() 호출됨!");
+  }
 
   @GetMapping("/contact/list")
   public Object list() {
@@ -16,7 +22,7 @@ public class ContactController {
   @GetMapping("/contact/add")
   public Object add(Contact contact) {
     contactList.add(contact);
-    return contactList.size;
+    return contactList.size();
   }
 
   @GetMapping("/contact/get")
@@ -25,12 +31,12 @@ public class ContactController {
     if(index == -1) {
       return "";
     }
-    return contactList.list[index];
+    return contactList.get(index);
   }
 
   @GetMapping("/contact/update")
   public Object update(Contact contact) {
-    int index = indexOf(contact.email);
+    int index = indexOf(contact.getEmail());
     if(index == -1) {
       return 0;
     }
@@ -49,8 +55,9 @@ public class ContactController {
 
   //이메일로 연락처 정보를 찾는다.
   int indexOf(String email) {
-    for (int i = 0; i < contactList.size; i++) {
-      if (((Contact) contactList.list[i]).email.equals(email)) {
+    for (int i = 0; i < contactList.size(); i++) {
+      Contact contact = (Contact) contactList.get(i);
+      if (contact.getEmail().equals(email)) {
         return i;
       }
     }

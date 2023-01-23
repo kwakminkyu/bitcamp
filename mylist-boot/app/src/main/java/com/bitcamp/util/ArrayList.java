@@ -1,4 +1,4 @@
-package com.bitcamp.mylist;
+package com.bitcamp.util;
 
 public class ArrayList {
 
@@ -6,7 +6,7 @@ public class ArrayList {
   int size = 0;
 
   // 기존 배열의 목록을 새 배열에 담는다.
-  Object[] toArray() {
+  public Object[] toArray() {
     Object[] arr = new Object[this.size];
     for (int i = 0; i < this.size; i++) {
       arr[i] = this.list[i];
@@ -14,7 +14,7 @@ public class ArrayList {
     return arr;
   }
 
-  void add(Object obj) {
+  public void add(Object obj) {
     // 배열이 꽉 찼는지 검사.
     if (this.size == this.list.length) {
       // 꽉 찼을 경우 매서드 실행.
@@ -48,7 +48,7 @@ public class ArrayList {
   }
 
   //배열에서 지정한 항목을 삭제한다.
-  Object remove(int index) {
+  public Object remove(int index) {
     if (index < 0 || index >= this.size) {
       return null;
     }
@@ -62,12 +62,20 @@ public class ArrayList {
 
   // 특정 위치에 배열의 값을 변경한다.
   // 변경전 값을 리턴
-  Object set(int index, Object obj) {
+  public Object set(int index, Object obj) {
     if (index < 0 || index >= this.size) {
       return null;
     }
     Object old = this.list[index];
     this.list[index] = obj;
     return old;
+  }
+
+  public int size() {
+    return this.size;
+  }
+
+  public Object get(int index) {
+    return this.list[index];
   }
 }

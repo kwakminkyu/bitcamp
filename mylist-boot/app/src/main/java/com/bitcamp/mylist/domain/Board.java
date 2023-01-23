@@ -1,4 +1,4 @@
-package com.bitcamp.mylist;
+package com.bitcamp.mylist.domain;
 
 public class Board {
   String title;
