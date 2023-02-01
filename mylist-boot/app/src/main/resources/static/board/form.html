@@ -9,7 +9,7 @@
   <form>
     제목: <input id="x-title" type="text"><br>
     내용: <textarea id="x-content" cols="60" rows="10"></textarea><br>
-    <button id="add-btn" type="button">추가</button>
+    <button id="add-btn" type="button">등록</button>
     <button id="cancel-btn" type="button">취소</button>
   </form>
   <script>
@@ -18,7 +18,7 @@
   
     document.querySelector("#add-btn").onclick = function() {
       if (xTitle.value == "" || xContent.value == "") {
-        window.alert("필수 입력 항목이 비었습니다.")
+        window.alert("항목이 비었습니다.")
         return
       }
 
