@@ -1,6 +1,7 @@
 package com.bitcamp.mylist.controller;
 
-import org.springframework.web.bind.annotation.GetMapping;
+import java.io.FileWriter;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import com.bitcamp.mylist.domain.Contact;
 import com.bitcamp.util.ArrayList;
@@ -14,18 +15,18 @@ public class ContactController {
     System.out.println("ContactController() 호출됨!");
   }
 
-  @GetMapping("/contact/list")
+  @RequestMapping("/contact/list")
   public Object list() {
     return contactList.toArray();
   }
 
-  @GetMapping("/contact/add")
+  @RequestMapping("/contact/add")
   public Object add(Contact contact) {
     contactList.add(contact);
     return contactList.size();
   }
 
-  @GetMapping("/contact/get")
+  @RequestMapping("/contact/get")
   public Object get(String email) {
     int index = indexOf(email);
     if(index == -1) {
@@ -34,7 +35,7 @@ public class ContactController {
     return contactList.get(index);
   }
 
-  @GetMapping("/contact/update")
+  @RequestMapping("/contact/update")
   public Object update(Contact contact) {
     int index = indexOf(contact.getEmail());
     if(index == -1) {
@@ -43,7 +44,7 @@ public class ContactController {
     return contactList.set(index, contact) == null ? 0 : 1;
   }
 
-  @GetMapping("/contact/delete")
+  @RequestMapping("/contact/delete")
   public Object delet(String email) {
     int index = indexOf(email);
     if(index == -1) {
@@ -51,6 +52,22 @@ public class ContactController {
     }
     contactList.remove(index);
     return 1;
+  }
+
+  @RequestMapping("/contact/save")
+  public Object save() throws Exception {
+    FileWriter out = new FileWriter("contacts.csv");
+    Object[] arr = contactList.toArray();
+    for (Object obj : arr) {
+      Contact contact = (Contact) obj;
+      out.write(contact.getName() + "," +
+          contact.getEmail() + "," +
+          contact.getTel() + "," +
+          contact.getCompany() +
+          "\n");
+    }
+    out.close();
+    return 0;
   }
 
   //이메일로 연락처 정보를 찾는다.

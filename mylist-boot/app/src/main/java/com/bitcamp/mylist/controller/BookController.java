@@ -1,6 +1,6 @@
 package com.bitcamp.mylist.controller;
 
-import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import com.bitcamp.mylist.domain.Book;
 import com.bitcamp.util.ArrayList;
@@ -14,18 +14,18 @@ public class BookController {
     System.out.println("BookController() 호출됨!");
   }
 
-  @GetMapping("/book/list")
+  @RequestMapping("/book/list")
   public Object list() {
     return bookList.toArray();
   }
 
-  @GetMapping("/book/add")
+  @RequestMapping("/book/add")
   public Object add(Book book) {
     bookList.add(book);
     return bookList.size();
   }
 
-  @GetMapping("/book/get")
+  @RequestMapping("/book/get")
   public Object get(int index) {
     if(index < 0 || index >= bookList.size()) {
       return 0;
@@ -33,7 +33,7 @@ public class BookController {
     return bookList.get(index);
   }
 
-  @GetMapping("/book/update")
+  @RequestMapping("/book/update")
   public Object update(int index, Book book) {
     if(index < 0 || index >= bookList.size()) {
       return 0;
@@ -41,7 +41,7 @@ public class BookController {
     return bookList.set(index, book) == null ? 0 : 1;
   }
 
-  @GetMapping("/book/delete")
+  @RequestMapping("/book/delete")
   public Object delet(int index) {
     if(index < 0 || index >= bookList.size()) {
       return 0;

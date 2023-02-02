@@ -1,6 +1,6 @@
 package com.bitcamp.mylist.controller;
 
-import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import com.bitcamp.mylist.domain.Todo;
 import com.bitcamp.util.ArrayList;
@@ -14,18 +14,18 @@ public class TodoController {
     System.out.println("TodoController() 호출됨!");
   }
 
-  @GetMapping("/todo/list")
+  @RequestMapping("/todo/list")
   public Object list() {
     return todoList.toArray();
   }
 
-  @GetMapping("/todo/add")
+  @RequestMapping("/todo/add")
   public Object add(Todo todo) {
     todoList.add(todo);
     return todoList.size();
   }
 
-  @GetMapping("/todo/update")
+  @RequestMapping("/todo/update")
   public Object update(int index, Todo todo) {
     if(index < 0 || index >= todoList.size()) {
       return 0;
@@ -36,7 +36,7 @@ public class TodoController {
     return todoList.set(index, todo) == null ? 0 : 1;
   }
 
-  @GetMapping("/todo/check")
+  @RequestMapping("/todo/check")
   public Object check(int index, boolean done) {
     if(index < 0 || index >= todoList.size()) {
       return 0;
@@ -45,7 +45,7 @@ public class TodoController {
     return 1;
   }
 
-  @GetMapping("/todo/delete")
+  @RequestMapping("/todo/delete")
   public Object delet(int index) {
     //    if(index < 0 || index >= todoList.size) {
     //      return 0;
