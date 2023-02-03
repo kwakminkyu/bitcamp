@@ -2,13 +2,19 @@ package com.bitcamp.mylist.io;
 
 import java.io.FileWriter;
 
-public class FileWriter2 extends FileWriter {
+public class FileWriter2 {
+
+  FileWriter out;
 
   public FileWriter2(String filename) throws Exception {
-    super(filename);
+    out = new FileWriter(filename);
   }
 
   public void println(String str) throws Exception {
-    this.write(str + '\n');
+    out.write(str + '\n');
+  }
+
+  public void close() throws Exception {
+    out.close();
   }
 }
