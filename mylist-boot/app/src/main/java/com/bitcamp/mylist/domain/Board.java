@@ -2,7 +2,7 @@ package com.bitcamp.mylist.domain;
 
 import java.sql.Date;
 
-public class Board {
+public class Board implements java.io.Serializable {
   String title;
   String content;
   int viewCount;

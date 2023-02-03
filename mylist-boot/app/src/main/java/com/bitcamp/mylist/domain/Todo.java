@@ -1,6 +1,6 @@
 package com.bitcamp.mylist.domain;
 
-public class Todo {
+public class Todo implements java.io.Serializable {
 
   String title;
   boolean done;

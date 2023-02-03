@@ -1,6 +1,6 @@
 package com.bitcamp.util;
 
-public class ArrayList {
+public class ArrayList implements java.io.Serializable {
 
   Object[] list = new Object[5];
   int size = 0;

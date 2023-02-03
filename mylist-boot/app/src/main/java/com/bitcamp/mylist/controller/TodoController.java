@@ -2,10 +2,10 @@ package com.bitcamp.mylist.controller;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import com.bitcamp.mylist.domain.Todo;
@@ -20,20 +20,10 @@ public class TodoController {
     todoList = new ArrayList();
     System.out.println("TodoController() 호출됨!");
 
-    DataInputStream in = new DataInputStream(new BufferedInputStream(new FileInputStream("todos.data")));
+    ObjectInputStream in = new ObjectInputStream(new BufferedInputStream(new FileInputStream("todos.ser")));
 
-    while (true) {
-      try {
-        Todo todo = new Todo();
-        todo.setTitle(in.readUTF());
-        todo.setDone(in.readBoolean());
-
-        todoList.add(todo);
-      } catch (Exception e) {
-        break;
-      }
-      in.close();
-    }
+    todoList = (ArrayList) in.readObject();
+    in.close();
   }
 
   @RequestMapping("/todo/list")
@@ -78,15 +68,10 @@ public class TodoController {
 
   @RequestMapping("/todo/save")
   public Object save() throws Exception {
-    DataOutputStream out = new DataOutputStream(new BufferedOutputStream(new FileOutputStream("todos.data")));
+    ObjectOutputStream out = new ObjectOutputStream(new BufferedOutputStream(new FileOutputStream("todos.ser")));
 
-    Object[] arr = todoList.toArray();
-    for (Object obj : arr) {
-      Todo todo = (Todo) obj;
-      out.writeUTF(todo.getTitle());
-      out.writeBoolean(todo.isDone());
-    }
+    out.writeObject(todoList);
     out.close();
-    return arr.length;
+    return todoList.size();
   }
 }
