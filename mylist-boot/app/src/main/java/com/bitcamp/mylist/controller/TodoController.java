@@ -1,10 +1,9 @@
 package com.bitcamp.mylist.controller;
 
-import java.io.FileReader;
-import java.io.FileWriter;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import com.bitcamp.mylist.domain.Todo;
+import com.bitcamp.mylist.io.FileWriter2;
 import com.bitcamp.util.ArrayList;
 
 @RestController
@@ -16,22 +15,14 @@ public class TodoController {
     todoList = new ArrayList();
     System.out.println("TodoController() 호출됨!");
 
-    FileReader in = new FileReader("todos.csv");
+    com.bitcamp.mylist.io.FileReader2 in = new com.bitcamp.mylist.io.FileReader2("todos.csv");
 
-    StringBuilder buf = new StringBuilder();
-    int c;
-
-    while ((c = in.read()) != -1) {
-      if (c == '\n') {
-        todoList.add(Todo.valueOf(buf.toString())); // 파일에서 읽은 CSV 데이터로 객체를 초기화 시킨 후 목록에 등록한다.
-        buf.setLength(0); // 다음 데이터를 읽기 위해 버퍼를 초기화 시킨다.
-      } else {
-        buf.append((char) c);
-      }
+    String line;
+    while ((line = in.readLine()).length() != 0) {
+      todoList.add(Todo.valueOf(line));
     }
     in.close();
   }
-
 
   @RequestMapping("/todo/list")
   public Object list() {
@@ -75,12 +66,12 @@ public class TodoController {
 
   @RequestMapping("/todo/save")
   public Object save() throws Exception {
-    FileWriter out = new FileWriter("todos.csv");
+    FileWriter2 out = new FileWriter2("todos.csv");
 
     Object[] arr = todoList.toArray();
     for (Object obj : arr) {
       Todo todo = (Todo) obj;
-      out.write(todo.toCsvString() + "\n");
+      out.println(todo.toCsvString());
     }
     out.close();
     return 0;
