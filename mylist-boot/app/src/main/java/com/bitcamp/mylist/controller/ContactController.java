@@ -20,10 +20,14 @@ public class ContactController {
     contactList = new ArrayList();
     System.out.println("ContactController() 호출됨!");
 
-    ObjectInputStream in = new ObjectInputStream(new BufferedInputStream(new FileInputStream("contacts.ser")));
+    try {
+      ObjectInputStream in = new ObjectInputStream(new BufferedInputStream(new FileInputStream("contacts.ser")));
 
-    contactList = (ArrayList) in.readObject();
-    in.close();
+      contactList = (ArrayList) in.readObject();
+      in.close();
+    } catch (Exception e) {
+      System.out.println("연락처 로딩 중 오류 발생");
+    }
   }
 
   @RequestMapping("/contact/list")

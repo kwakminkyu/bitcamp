@@ -20,10 +20,14 @@ public class TodoController {
     todoList = new ArrayList();
     System.out.println("TodoController() 호출됨!");
 
-    ObjectInputStream in = new ObjectInputStream(new BufferedInputStream(new FileInputStream("todos.ser")));
+    try {
+      ObjectInputStream in = new ObjectInputStream(new BufferedInputStream(new FileInputStream("todos.ser")));
 
-    todoList = (ArrayList) in.readObject();
-    in.close();
+      todoList = (ArrayList) in.readObject();
+      in.close();
+    } catch (Exception e) {
+      System.out.println("할 일 로딩 중 오류 발생");
+    }
   }
 
   @RequestMapping("/todo/list")

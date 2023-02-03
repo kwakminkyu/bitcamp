@@ -21,20 +21,24 @@ public class BoardController {
     boardList = new ArrayList();
     System.out.println("BoardController() 호출됨!");
 
-    FileInputStream in = new FileInputStream("boards.ser");
-    BufferedInputStream in1 = new BufferedInputStream(in);
-    ObjectInputStream in2 = new ObjectInputStream(in1);
+    try {
+      FileInputStream in = new FileInputStream("boards.ser");
+      BufferedInputStream in1 = new BufferedInputStream(in);
+      ObjectInputStream in2 = new ObjectInputStream(in1);
 
-    //    while (true) {
-    //      try {
-    //        Board board = (Board) in2.readObject();
-    //        boardList.add(board);
-    //      } catch (Exception e) {
-    //        break;
-    //      }
-    //    }
-    boardList = (ArrayList) in2.readObject();
-    in2.close();
+      //    while (true) {
+      //      try {
+      //        Board board = (Board) in2.readObject();
+      //        boardList.add(board);
+      //      } catch (Exception e) {
+      //        break;
+      //      }
+      //    }
+      boardList = (ArrayList) in2.readObject();
+      in2.close();
+    } catch (Exception e) {
+      System.out.println("게시판 로딩 중 오류 발생");
+    }
   }
 
   @RequestMapping("/board/list")

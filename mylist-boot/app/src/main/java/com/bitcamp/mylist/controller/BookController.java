@@ -20,10 +20,14 @@ public class BookController {
     bookList = new ArrayList();
     System.out.println("BookController() 호출됨!");
 
-    ObjectInputStream in = new ObjectInputStream(new BufferedInputStream(new FileInputStream("books.ser")));
+    try {
+      ObjectInputStream in = new ObjectInputStream(new BufferedInputStream(new FileInputStream("books.ser")));
 
-    bookList = (ArrayList) in.readObject();
-    in.close();
+      bookList = (ArrayList) in.readObject();
+      in.close();
+    } catch (Exception e) {
+      System.out.println("독서록 로딩 중 오류 발생");
+    }
   }
 
 
