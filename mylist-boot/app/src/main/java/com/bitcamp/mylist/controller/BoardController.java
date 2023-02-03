@@ -25,7 +25,6 @@ public class BoardController {
     BufferedInputStream in1 = new BufferedInputStream(in);
     DataInputStream in2 = new DataInputStream(in1);
 
-    String line;
     while (true) {
       try {
         Board board = new Board();

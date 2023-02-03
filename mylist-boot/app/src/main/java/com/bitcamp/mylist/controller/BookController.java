@@ -1,9 +1,12 @@
 package com.bitcamp.mylist.controller;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.PrintWriter;
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.sql.Date;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import com.bitcamp.mylist.domain.Book;
@@ -18,13 +21,25 @@ public class BookController {
     bookList = new ArrayList();
     System.out.println("BookController() 호출됨!");
 
-    BufferedReader in = new BufferedReader(new FileReader("books.csv"));
+    DataInputStream in = new DataInputStream(new BufferedInputStream(new FileInputStream("boards.data")));
 
-    String line;
-    while ((line = in.readLine()) != null) {
-      bookList.add(Book.valueOf(line));
+    while (true) {
+      try {
+        Book book = new Book();
+        book.setTitle(in.readUTF());
+        book.setAuthor(in.readUTF());
+        book.setPress(in.readUTF());
+        book.setPage(in.readInt());
+        book.setPrice(in.readInt());
+        book.setReadDate(Date.valueOf(in.readUTF()));
+        book.setFeed(in.readUTF());
+
+        bookList.add(book);
+      } catch (Exception e) {
+        break;
+      }
+      in.close();
     }
-    in.close();
   }
 
 
@@ -65,14 +80,20 @@ public class BookController {
 
   @RequestMapping("/book/save")
   public Object save() throws Exception {
-    PrintWriter out = new PrintWriter(new FileWriter("books.csv"));
+    DataOutputStream out = new DataOutputStream(new BufferedOutputStream(new FileOutputStream("books.data")));
 
     Object[] arr = bookList.toArray();
     for (Object obj : arr) {
       Book book = (Book) obj;
-      out.println(book.toCsvString());
+      out.writeUTF(book.getTitle());
+      out.writeUTF(book.getAuthor());
+      out.writeUTF(book.getPress());
+      out.writeInt(book.getPage());
+      out.writeInt(book.getPrice());
+      out.writeUTF(book.getReadDate().toString());
+      out.writeUTF(book.getFeed());
     }
     out.close();
-    return 0;
+    return arr.length;
   }
 }
