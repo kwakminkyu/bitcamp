@@ -1,10 +1,13 @@
 package com.bitcamp.mylist.controller;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.PrintWriter;
 import java.sql.Date;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import com.bitcamp.mylist.domain.Board;
-import com.bitcamp.mylist.io.FileWriter2;
 import com.bitcamp.util.ArrayList;
 
 @RestController
@@ -16,13 +19,14 @@ public class BoardController {
     boardList = new ArrayList();
     System.out.println("BoardController() 호출됨!");
 
-    com.bitcamp.mylist.io.FileReader2 in = new com.bitcamp.mylist.io.FileReader2("boards.csv");
+    FileReader in = new FileReader("boards.csv");
+    BufferedReader in2 = new BufferedReader(in);
 
     String line;
-    while ((line = in.readLine()).length() != 0) {
+    while ((line = in2.readLine()) != null) {
       boardList.add(Board.valueOf(line));
     }
-    in.close();
+    in2.close();
   }
 
   @RequestMapping("/board/list")
@@ -68,14 +72,16 @@ public class BoardController {
 
   @RequestMapping("/board/save")
   public Object save() throws Exception {
-    FileWriter2 out = new FileWriter2("boards.csv");
+    FileWriter out = new FileWriter("boards.csv");
+
+    PrintWriter out2 = new PrintWriter(out);
 
     Object[] arr = boardList.toArray();
     for (Object obj : arr) {
       Board board = (Board) obj;
-      out.println(board.toCsvString());
+      out2.println(board.toCsvString());
     }
-    out.close();
-    return 0;
+    out2.close();
+    return arr.length;
   }
 }

@@ -1,9 +1,12 @@
 package com.bitcamp.mylist.controller;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.PrintWriter;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import com.bitcamp.mylist.domain.Contact;
-import com.bitcamp.mylist.io.FileWriter2;
 import com.bitcamp.util.ArrayList;
 
 @RestController
@@ -15,10 +18,10 @@ public class ContactController {
     contactList = new ArrayList();
     System.out.println("ContactController() 호출됨!");
 
-    com.bitcamp.mylist.io.FileReader2 in = new com.bitcamp.mylist.io.FileReader2("contacts.csv");
+    BufferedReader in = new BufferedReader(new FileReader("contacts.csv"));
 
     String line;
-    while ((line = in.readLine()).length() != 0) {
+    while ((line = in.readLine()) != null) {
       contactList.add(Contact.valueOf(line));
     }
     in.close();
@@ -65,7 +68,7 @@ public class ContactController {
 
   @RequestMapping("/contact/save")
   public Object save() throws Exception {
-    FileWriter2 out = new FileWriter2("contacts.csv");
+    PrintWriter out = new PrintWriter(new FileWriter("contacts.csv"));
 
     Object[] arr = contactList.toArray();
     for (Object obj : arr) {
