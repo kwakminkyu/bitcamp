@@ -1,16 +1,16 @@
 package com.bitcamp.mylist.controller;
 
-import java.io.BufferedInputStream;
-import java.io.BufferedOutputStream;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.PrintWriter;
 import java.sql.Date;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import com.bitcamp.mylist.domain.Board;
 import com.bitcamp.util.ArrayList;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 @RestController
 public class BoardController {
@@ -22,20 +22,22 @@ public class BoardController {
     System.out.println("BoardController() 호출됨!");
 
     try {
-      FileInputStream in = new FileInputStream("boards.ser");
-      BufferedInputStream in1 = new BufferedInputStream(in);
-      ObjectInputStream in2 = new ObjectInputStream(in1);
+      BufferedReader in = (new BufferedReader(new FileReader("boards.json")));
 
-      //    while (true) {
-      //      try {
-      //        Board board = (Board) in2.readObject();
-      //        boardList.add(board);
-      //      } catch (Exception e) {
-      //        break;
-      //      }
-      //    }
-      boardList = (ArrayList) in2.readObject();
-      in2.close();
+      ObjectMapper mapper =new ObjectMapper();
+
+      String jsonStr = in.readLine();
+
+      Board[] boards = mapper.readValue(jsonStr, Board[].class);
+
+      for (Board board : boards) {
+        boardList.add(board);
+      }
+
+      System.out.println(jsonStr);
+
+      in.close();
+
     } catch (Exception e) {
       System.out.println("게시판 로딩 중 오류 발생");
     }
@@ -84,16 +86,15 @@ public class BoardController {
 
   @RequestMapping("/board/save")
   public Object save() throws Exception {
-    FileOutputStream out = new FileOutputStream("boards.ser");
-    BufferedOutputStream out1 = new BufferedOutputStream(out);
-    ObjectOutputStream out2 = new ObjectOutputStream(out1);
+    PrintWriter out = new PrintWriter(new BufferedWriter(new FileWriter("boards.json")));
 
-    //    Object[] arr = boardList.toArray();
-    //    for (Object obj : arr) {
-    //      out2.writeObject(obj);
-    //    }
-    out2.writeObject(boardList);
-    out2.close();
+    ObjectMapper mapper = new ObjectMapper();
+
+    String jsonStr = mapper.writeValueAsString(boardList.toArray());
+
+    out.println(jsonStr);
+
+    out.close();
     return boardList.size();
   }
 }

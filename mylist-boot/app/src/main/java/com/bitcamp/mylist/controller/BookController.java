@@ -1,15 +1,15 @@
 package com.bitcamp.mylist.controller;
 
-import java.io.BufferedInputStream;
-import java.io.BufferedOutputStream;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.PrintWriter;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import com.bitcamp.mylist.domain.Book;
 import com.bitcamp.util.ArrayList;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 @RestController
 public class BookController {
@@ -21,10 +21,20 @@ public class BookController {
     System.out.println("BookController() 호출됨!");
 
     try {
-      ObjectInputStream in = new ObjectInputStream(new BufferedInputStream(new FileInputStream("books.ser")));
+      BufferedReader in = (new BufferedReader(new FileReader("books.json")));
 
-      bookList = (ArrayList) in.readObject();
+      ObjectMapper mapper =new ObjectMapper();
+      String jsonStr = in.readLine();
+      Book[] books = mapper.readValue(jsonStr, Book[].class);
+
+      for (Book book : books) {
+        bookList.add(book);
+      }
+
+      System.out.println(jsonStr);
+
       in.close();
+
     } catch (Exception e) {
       System.out.println("독서록 로딩 중 오류 발생");
     }
@@ -68,9 +78,12 @@ public class BookController {
 
   @RequestMapping("/book/save")
   public Object save() throws Exception {
-    ObjectOutputStream out = new ObjectOutputStream(new BufferedOutputStream(new FileOutputStream("books.ser")));
+    PrintWriter out = new PrintWriter(new BufferedWriter(new FileWriter("books.json")));
 
-    out.writeObject(bookList);
+    ObjectMapper mapper = new ObjectMapper();
+    String jsonStr = mapper.writeValueAsString(bookList.toArray());
+    out.println(jsonStr);
+
     out.close();
     return bookList.size();
   }
