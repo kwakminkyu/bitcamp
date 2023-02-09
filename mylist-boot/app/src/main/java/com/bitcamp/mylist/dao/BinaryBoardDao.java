@@ -1,23 +1,34 @@
 package com.bitcamp.mylist.dao;
 
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.PrintWriter;
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.sql.Date;
 import com.bitcamp.mylist.domain.Board;
 import com.bitcamp.util.ArrayList;
 
-public class CsvBoardDao {
+public class BinaryBoardDao {
+
+  String filename = "boards.bin";
   ArrayList boardList = new ArrayList();
 
-  public CsvBoardDao() throws Exception {
+  public BinaryBoardDao() throws Exception {
     try {
-      BufferedReader in = new BufferedReader(new FileReader("boards.csv"));
+      DataInputStream in = new DataInputStream(new BufferedInputStream(new FileInputStream(filename)));
 
-      String csvStr;
-      while ((csvStr = in.readLine()) != null) {
-        boardList.add(Board.valueOf(csvStr)); 
+      int len = in.readInt();
+
+      for (int i = 0; i < len; i++) {
+        Board board = new Board();
+        board.setTitle(in.readUTF());
+        board.setContent(in.readUTF());
+        board.setViewCount(in.readInt());
+        board.setCreateDate(Date.valueOf(in.readUTF()));
+
+        boardList.add(board);
       }
       in.close();
     } catch (Exception e) {
@@ -26,11 +37,15 @@ public class CsvBoardDao {
   }
 
   public void save() throws Exception {
-    PrintWriter out = new PrintWriter(new BufferedWriter(new FileWriter("boards.csv")));
+    DataOutputStream out = new DataOutputStream(new BufferedOutputStream(new FileOutputStream(filename)));
 
+    out.writeInt(boardList.size()); 
     for (int i = 0; i < boardList.size(); i++) {
       Board board = (Board) boardList.get(i);
-      out.println(board.toCsvString());
+      out.writeUTF(board.getTitle());
+      out.writeUTF(board.getContent());
+      out.writeInt(board.getViewCount());
+      out.writeUTF(board.getCreateDate().toString());
     }
     out.flush();
     out.close();
