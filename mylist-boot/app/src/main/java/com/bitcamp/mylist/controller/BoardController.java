@@ -1,16 +1,17 @@
 package com.bitcamp.mylist.controller;
 
 import java.sql.Date;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import com.bitcamp.mylist.dao.BoardDao;
-import com.bitcamp.mylist.dao.JsonBoardDao;
 import com.bitcamp.mylist.domain.Board;
 
 @RestController
 public class BoardController {
 
-  BoardDao boardDao = new JsonBoardDao();
+  @Autowired
+  BoardDao boardDao;
 
   public BoardController() throws Exception {
     System.out.println("BoardController() 호출됨!");

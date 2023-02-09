@@ -8,12 +8,10 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.sql.Date;
 import com.bitcamp.mylist.domain.Board;
-import com.bitcamp.util.ArrayList;
 
-public class BinaryBoardDao implements BoardDao {
+public class BinaryBoardDao extends AbstractBoardDao {
 
   String filename = "boards.bin";
-  ArrayList boardList = new ArrayList();
 
   public BinaryBoardDao() throws Exception {
     try {
@@ -36,7 +34,8 @@ public class BinaryBoardDao implements BoardDao {
     }
   }
 
-  public void save() throws Exception {
+  @Override
+  protected void save() throws Exception {
     DataOutputStream out = new DataOutputStream(new BufferedOutputStream(new FileOutputStream(filename)));
 
     out.writeInt(boardList.size()); 

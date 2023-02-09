@@ -1,14 +1,14 @@
 package com.bitcamp.mylist.dao;
 
 import java.io.File;
+import org.springframework.stereotype.Repository;
 import com.bitcamp.mylist.domain.Board;
-import com.bitcamp.util.ArrayList;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-public class JsonBoardDao implements BoardDao {
+@Repository
+public class JsonBoardDao extends AbstractBoardDao {
 
   String filename = "boards.json";
-  ArrayList boardList = new ArrayList();
 
   public JsonBoardDao() throws Exception {
     try {
@@ -19,7 +19,8 @@ public class JsonBoardDao implements BoardDao {
     }
   }
 
-  private void save() throws Exception {
+  @Override
+  protected void save() throws Exception {
     ObjectMapper mapper = new ObjectMapper();
     mapper.writeValue(new File(filename), boardList.toArray());
   }

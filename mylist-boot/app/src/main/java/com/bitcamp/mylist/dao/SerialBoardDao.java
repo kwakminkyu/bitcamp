@@ -9,10 +9,9 @@ import java.io.ObjectOutputStream;
 import com.bitcamp.mylist.domain.Board;
 import com.bitcamp.util.ArrayList;
 
-public class SerialBoardDao implements BoardDao {
+public class SerialBoardDao extends AbstractBoardDao {
 
   String filename = "boards.ser";
-  ArrayList boardList = new ArrayList();
 
   public SerialBoardDao() throws Exception {
     try {
@@ -25,7 +24,8 @@ public class SerialBoardDao implements BoardDao {
     }
   }
 
-  public void save() throws Exception {
+  @Override
+  protected void save() throws Exception {
     ObjectOutputStream out = new ObjectOutputStream(new BufferedOutputStream(new FileOutputStream(filename)));
 
     out.writeObject(boardList);
