@@ -1,100 +1,61 @@
 package com.bitcamp.mylist.controller;
 
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.PrintWriter;
 import java.sql.Date;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import com.bitcamp.mylist.dao.CsvBoardDao;
 import com.bitcamp.mylist.domain.Board;
-import com.bitcamp.util.ArrayList;
-import com.fasterxml.jackson.databind.ObjectMapper;
 
 @RestController
 public class BoardController {
 
-  ArrayList boardList;
+  CsvBoardDao boardDao = new CsvBoardDao();
 
   public BoardController() throws Exception {
-    boardList = new ArrayList();
     System.out.println("BoardController() 호출됨!");
-
-    try {
-      BufferedReader in = (new BufferedReader(new FileReader("boards.json")));
-
-      ObjectMapper mapper =new ObjectMapper();
-
-      String jsonStr = in.readLine();
-
-      Board[] boards = mapper.readValue(jsonStr, Board[].class);
-
-      for (Board board : boards) {
-        boardList.add(board);
-      }
-
-      System.out.println(jsonStr);
-
-      in.close();
-
-    } catch (Exception e) {
-      System.out.println("게시판 로딩 중 오류 발생");
-    }
   }
 
   @RequestMapping("/board/list")
   public Object list() {
-    return boardList.toArray();
+    return boardDao.findAll();
   }
 
   @RequestMapping("/board/add")
   public Object add(Board board) {
     board.setCreateDate(new Date(System.currentTimeMillis()));
-    boardList.add(board);
-    return boardList.size();
+    boardDao.insert(board);
+    return boardDao.countAll();
   }
 
   @RequestMapping("/board/get")
   public Object get(int index) {
-    if(index < 0 || index >= boardList.size()) {
-      return 0;
+    Board board = boardDao.findByNo(index);
+    if(board == null) {
+      return "";
     }
-    Board board = (Board) boardList.get(index);
     board.setViewCount(board.getViewCount() + 1);
     return board;
   }
 
   @RequestMapping("/board/update")
   public Object update(int index, Board board) {
-    if(index < 0 || index >= boardList.size()) {
+    Board old = boardDao.findByNo(index);
+    if(old == null) {
       return 0;
     }
-    Board old = (Board) boardList.get(index);
     board.setViewCount(old.getViewCount());
     board.setCreateDate(old.getCreateDate());
-    return boardList.set(index, board) == null ? 0 : 1;
+    return boardDao.update(index, board);
   }
 
   @RequestMapping("/board/delete")
-  public Object delet(int index) {
-    //    if(index < 0 || index >= ArrayList.size) {
-    //      return 0;
-    //    }
-    return boardList.remove(index) == null ? 0 : 1;
+  public Object delete(int index) {
+    return boardDao.delete(index);
   }
 
   @RequestMapping("/board/save")
   public Object save() throws Exception {
-    PrintWriter out = new PrintWriter(new BufferedWriter(new FileWriter("boards.json")));
-
-    ObjectMapper mapper = new ObjectMapper();
-
-    String jsonStr = mapper.writeValueAsString(boardList.toArray());
-
-    out.println(jsonStr);
-
-    out.close();
-    return boardList.size();
+    boardDao.save();
+    return boardDao.countAll();
   }
 }
