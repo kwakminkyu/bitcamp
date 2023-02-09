@@ -9,18 +9,18 @@ import java.io.ObjectOutputStream;
 import com.bitcamp.util.ArrayList;
 
 //@Repository
-public class SerialBoardDao extends AbstractBoardDao {
+public class SerialBookDao extends AbstractBookDao {
 
-  String filename = "boards.ser";
+  String filename = "books.ser";
 
-  public SerialBoardDao() throws Exception {
+  public SerialBookDao() throws Exception {
     try {
       ObjectInputStream in = new ObjectInputStream(new BufferedInputStream(new FileInputStream(filename)));
 
-      boardList = (ArrayList) in.readObject();
+      bookList = (ArrayList) in.readObject();
       in.close();
     } catch (Exception e) {
-      System.out.println("게시판 로딩 중 오류 발생");
+      System.out.println("독서록 로딩 중 오류 발생");
     }
   }
 
@@ -28,7 +28,7 @@ public class SerialBoardDao extends AbstractBoardDao {
   protected void save() throws Exception {
     ObjectOutputStream out = new ObjectOutputStream(new BufferedOutputStream(new FileOutputStream(filename)));
 
-    out.writeObject(boardList);
+    out.writeObject(bookList);
     out.flush();
     out.close();
   }

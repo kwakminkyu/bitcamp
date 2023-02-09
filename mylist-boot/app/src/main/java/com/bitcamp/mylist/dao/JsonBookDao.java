@@ -2,18 +2,18 @@ package com.bitcamp.mylist.dao;
 
 import java.io.File;
 import org.springframework.stereotype.Repository;
-import com.bitcamp.mylist.domain.Board;
+import com.bitcamp.mylist.domain.Book;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 @Repository
-public class JsonBoardDao extends AbstractBoardDao {
+public class JsonBookDao extends AbstractBookDao {
 
-  String filename = "boards.json";
+  String filename = "books.json";
 
-  public JsonBoardDao() throws Exception {
+  public JsonBookDao() throws Exception {
     try {
       ObjectMapper mapper = new ObjectMapper();
-      boardList.addAll(mapper.readValue(new File(filename), Board[].class));
+      bookList.addAll(mapper.readValue(new File(filename), Book[].class));
     } catch (Exception e) {
       System.out.println("게시판 로딩 중 오류 발생");
     }
@@ -22,6 +22,6 @@ public class JsonBoardDao extends AbstractBoardDao {
   @Override
   protected void save() throws Exception {
     ObjectMapper mapper = new ObjectMapper();
-    mapper.writeValue(new File(filename), boardList.toArray());
+    mapper.writeValue(new File(filename), bookList.toArray());
   }
 }
