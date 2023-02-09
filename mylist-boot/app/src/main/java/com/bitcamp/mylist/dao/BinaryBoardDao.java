@@ -10,7 +10,7 @@ import java.sql.Date;
 import com.bitcamp.mylist.domain.Board;
 import com.bitcamp.util.ArrayList;
 
-public class BinaryBoardDao {
+public class BinaryBoardDao implements BoardDao {
 
   String filename = "boards.bin";
   ArrayList boardList = new ArrayList();
@@ -51,19 +51,23 @@ public class BinaryBoardDao {
     out.close();
   }
 
+  @Override
   public int countAll() {
     return boardList.size();
   }
 
+  @Override
   public Object[] findAll() {
     return boardList.toArray();
   }
 
+  @Override
   public void insert(Board board) throws Exception {
     boardList.add(board);
     save();
   }
 
+  @Override
   public Board findByNo(int no) {
     if(no < 0 || no >= boardList.size()) {
       return null;
@@ -71,6 +75,7 @@ public class BinaryBoardDao {
     return (Board) boardList.get(no);
   }
 
+  @Override
   public int update(int no, Board board) throws Exception {
     if(no < 0 || no >= boardList.size()) {
       return 0;
@@ -80,6 +85,7 @@ public class BinaryBoardDao {
     return 1;
   }
 
+  @Override
   public int delete(int no) throws Exception {
     if(no < 0 || no >= boardList.size()) {
       return 0;
@@ -89,6 +95,7 @@ public class BinaryBoardDao {
     return 1;
   }
 
+  @Override
   public void increaseViewCount(int no) throws Exception {
     Board board = findByNo(no);
     board.setViewCount(board.getViewCount() + 1);

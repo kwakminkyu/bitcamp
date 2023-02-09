@@ -3,13 +3,14 @@ package com.bitcamp.mylist.controller;
 import java.sql.Date;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import com.bitcamp.mylist.dao.SerialBoardDao;
+import com.bitcamp.mylist.dao.BoardDao;
+import com.bitcamp.mylist.dao.JsonBoardDao;
 import com.bitcamp.mylist.domain.Board;
 
 @RestController
 public class BoardController {
 
-  SerialBoardDao boardDao = new SerialBoardDao();
+  BoardDao boardDao = new JsonBoardDao();
 
   public BoardController() throws Exception {
     System.out.println("BoardController() 호출됨!");
@@ -23,7 +24,7 @@ public class BoardController {
   @RequestMapping("/board/add")
   public Object add(Board board) throws Exception {
     board.setCreateDate(new Date(System.currentTimeMillis()));
-    boardDao.create(board);
+    boardDao.insert(board);
     return boardDao.countAll();
   }
 
@@ -45,11 +46,11 @@ public class BoardController {
     }
     board.setViewCount(old.getViewCount());
     board.setCreateDate(old.getCreateDate());
-    return boardDao.modify(index, board);
+    return boardDao.update(index, board);
   }
 
   @RequestMapping("/board/delete")
   public Object delete(int index) throws Exception {
-    return boardDao.remove(index);
+    return boardDao.delete(index);
   }
 }

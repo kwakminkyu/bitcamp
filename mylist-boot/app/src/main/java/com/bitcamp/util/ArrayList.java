@@ -23,6 +23,12 @@ public class ArrayList implements java.io.Serializable {
     this.list[this.size++] = obj;
   }
 
+  public void addAll(Object[] arr) {
+    for (Object obj : arr) {
+      this.add(obj);
+    }
+  }
+
   // 기존 배열을 새 배열에 복사한다.
   Object[] grow() {
     Object[] arr = new Object[this.newLength()];

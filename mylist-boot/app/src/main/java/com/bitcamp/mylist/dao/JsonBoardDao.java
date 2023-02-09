@@ -1,39 +1,27 @@
 package com.bitcamp.mylist.dao;
 
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.PrintWriter;
+import java.io.File;
 import com.bitcamp.mylist.domain.Board;
 import com.bitcamp.util.ArrayList;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
-public class CsvBoardDao implements BoardDao {
+public class JsonBoardDao implements BoardDao {
+
+  String filename = "boards.json";
   ArrayList boardList = new ArrayList();
 
-  public CsvBoardDao() throws Exception {
+  public JsonBoardDao() throws Exception {
     try {
-      BufferedReader in = new BufferedReader(new FileReader("boards.csv"));
-
-      String csvStr;
-      while ((csvStr = in.readLine()) != null) {
-        boardList.add(Board.valueOf(csvStr)); 
-      }
-      in.close();
+      ObjectMapper mapper = new ObjectMapper();
+      boardList.addAll(mapper.readValue(new File(filename), Board[].class));
     } catch (Exception e) {
       System.out.println("게시판 로딩 중 오류 발생");
     }
   }
 
-  public void save() throws Exception {
-    PrintWriter out = new PrintWriter(new BufferedWriter(new FileWriter("boards.csv")));
-
-    for (int i = 0; i < boardList.size(); i++) {
-      Board board = (Board) boardList.get(i);
-      out.println(board.toCsvString());
-    }
-    out.flush();
-    out.close();
+  private void save() throws Exception {
+    ObjectMapper mapper = new ObjectMapper();
+    mapper.writeValue(new File(filename), boardList.toArray());
   }
 
   @Override
