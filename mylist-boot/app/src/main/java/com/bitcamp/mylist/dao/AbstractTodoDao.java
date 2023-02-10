@@ -1,11 +1,11 @@
 package com.bitcamp.mylist.dao;
 
+import java.util.ArrayList;
 import com.bitcamp.mylist.domain.Todo;
-import com.bitcamp.util.ArrayList;
 
 public abstract class AbstractTodoDao implements TodoDao {
 
-  protected ArrayList todoList = new ArrayList();
+  protected ArrayList<Todo> todoList = new ArrayList<>();
 
   protected abstract void save() throws Exception;
 
@@ -30,7 +30,7 @@ public abstract class AbstractTodoDao implements TodoDao {
     if(no < 0 || no >= todoList.size()) {
       return 0;
     }
-    Todo old = (Todo) todoList.get(no);
+    Todo old = todoList.get(no);
     todo.setDone(old.isDone());
     todoList.set(no, todo);
     save();
@@ -42,7 +42,7 @@ public abstract class AbstractTodoDao implements TodoDao {
     if(no < 0 || no >= todoList.size()) {
       return 0;
     }
-    ((Todo)todoList.get(no)).setDone(done);
+    todoList.get(no).setDone(done);
     return 1;
   }
 

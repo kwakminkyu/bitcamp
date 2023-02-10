@@ -1,11 +1,11 @@
 package com.bitcamp.mylist.dao;
 
+import java.util.ArrayList;
 import com.bitcamp.mylist.domain.Book;
-import com.bitcamp.util.ArrayList;
 
 public abstract class AbstractBookDao implements BookDao {
 
-  protected ArrayList bookList = new ArrayList();
+  protected ArrayList<Book> bookList = new ArrayList<>();
 
   protected abstract void save() throws Exception;
 
@@ -30,7 +30,7 @@ public abstract class AbstractBookDao implements BookDao {
     if(no < 0 || no >= bookList.size()) {
       return null;
     }
-    return (Book) bookList.get(no);
+    return bookList.get(no);
   }
 
   @Override
