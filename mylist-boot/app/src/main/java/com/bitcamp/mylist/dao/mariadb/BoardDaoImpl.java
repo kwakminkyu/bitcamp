@@ -1,4 +1,4 @@
-package com.bitcamp.mylist.dao;
+package com.bitcamp.mylist.dao.mariadb;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -7,17 +7,19 @@ import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
 import org.springframework.stereotype.Repository;
+import com.bitcamp.mylist.dao.BoardDao;
+import com.bitcamp.mylist.dao.DaoException;
 import com.bitcamp.mylist.domain.Board;
 
 @Repository
-public class JdbcBoardDao implements BoardDao {
+public class BoardDaoImpl implements BoardDao {
 
-  public JdbcBoardDao() {
+  public BoardDaoImpl() {
     System.out.println("JdbcBoardDao 객체 생성");
   }
 
   @Override
-  public int countAll() throws Exception {
+  public int countAll() {
     try (Connection con = DriverManager.getConnection( 
         "jdbc:mariadb://localhost:3306/mylist_db?user=study&password=1111");
         PreparedStatement stmt = con.prepareStatement( 
@@ -26,11 +28,13 @@ public class JdbcBoardDao implements BoardDao {
 
       rs.next();
       return rs.getInt(1);
+    } catch (Exception e) {
+      throw new DaoException();
     }
   }
 
   @Override
-  public List<Board> findAll() throws Exception {
+  public List<Board> findAll() {
     try (Connection con = DriverManager.getConnection( 
         "jdbc:mariadb://localhost:3306/mylist_db?user=study&password=1111");
         PreparedStatement stmt = con.prepareStatement( 
@@ -47,11 +51,13 @@ public class JdbcBoardDao implements BoardDao {
         arr.add(board);
       }
       return arr;
+    } catch (Exception e) {
+      throw new DaoException();
     }
   }
 
   @Override
-  public int insert(Board board) throws Exception {
+  public int insert(Board board) {
     try (Connection con = DriverManager.getConnection( //
         "jdbc:mariadb://localhost:3306/mylist_db?user=study&password=1111");
         PreparedStatement stmt =
@@ -61,11 +67,13 @@ public class JdbcBoardDao implements BoardDao {
       stmt.setString(2, board.getContent());
 
       return stmt.executeUpdate();
+    } catch (Exception e) {
+      throw new DaoException();
     }
   }
 
   @Override
-  public Board findByNo(int no) throws Exception {
+  public Board findByNo(int no) {
     try (Connection con = DriverManager.getConnection(
         "jdbc:mariadb://localhost:3306/mylist_db?user=study&password=1111");
         PreparedStatement stmt = con.prepareStatement(
@@ -85,11 +93,13 @@ public class JdbcBoardDao implements BoardDao {
         board.setViewCount(rs.getInt("view_count"));
         return board;
       }
+    } catch (Exception e) {
+      throw new DaoException();
     }
   }
 
   @Override
-  public int update(Board board) throws Exception {
+  public int update(Board board) {
     try (Connection con = DriverManager.getConnection(
         "jdbc:mariadb://localhost:3306/mylist_db?user=study&password=1111");
         PreparedStatement stmt = con.prepareStatement(
@@ -100,11 +110,13 @@ public class JdbcBoardDao implements BoardDao {
       stmt.setInt(3, board.getNo());
 
       return stmt.executeUpdate();
-    } 
+    } catch (Exception e) {
+      throw new DaoException();
+    }
   }
 
   @Override
-  public int delete(int no) throws Exception {
+  public int delete(int no) {
     try (Connection con = DriverManager.getConnection(
         "jdbc:mariadb://localhost:3306/mylist_db?user=study&password=1111");
         PreparedStatement stmt = con.prepareStatement(
@@ -112,11 +124,13 @@ public class JdbcBoardDao implements BoardDao {
 
       stmt.setInt(1, no);
       return stmt.executeUpdate();
-    } 
+    } catch (Exception e) {
+      throw new DaoException();
+    }
   }
 
   @Override
-  public int increaseViewCount(int no) throws Exception {
+  public int increaseViewCount(int no) {
     try (Connection con = DriverManager.getConnection(
         "jdbc:mariadb://localhost:3306/mylist_db?user=study&password=1111");
         PreparedStatement stmt = con.prepareStatement(
@@ -124,6 +138,8 @@ public class JdbcBoardDao implements BoardDao {
 
       stmt.setInt(1, no);
       return stmt.executeUpdate();
+    } catch (Exception e) {
+      throw new DaoException();
     }
   }
 }

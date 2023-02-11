@@ -25,13 +25,11 @@
       return response.json();
     })
     .then(function(boards){
-      for (var i = 0; i < boards.length; i++) {
-      console.log(boards)
-      var board = boards[i]
+      for (board of boards) {
       var tr = document.createElement("tr")
-      tr.innerHTML = `<td><a href="view.html?index=${i}">${board.title}</a></td>
+      tr.innerHTML = `<td><a href="view.html?no=${board.no}">${board.title}</a></td>
                       <td>${board.viewCount}</td>
-                      <td>${board.createDate}</td>`
+                      <td>${board.createdDate}</td>`
       tbody.appendChild(tr)
       } 
     })

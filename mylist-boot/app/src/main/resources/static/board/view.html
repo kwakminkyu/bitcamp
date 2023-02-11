@@ -10,7 +10,7 @@
     제목: <input id="x-title" type="text"><br>
     내용: <textarea id="x-content" cols="60" rows="10"></textarea><br>
     조회수: <span id="x-viewCount"></span><br>
-    작성일: <span id="x-createDate"></span><br>
+    작성일: <span id="x-createdDate"></span><br>
     <button id="update-btn" type="button">변경</button>
     <button id="delete-btn" type="button">삭제</button>
     <button id="cancel-btn" type="button">취소</button>
@@ -19,7 +19,7 @@
     var xTitle = document.querySelector("#x-title")
     var xContent = document.querySelector("#x-content")
     var xViewCount = document.querySelector("#x-viewCount")
-    var xCreateDate = document.querySelector("#x-createDate")
+    var xCreatedDate = document.querySelector("#x-createdDate")
 
     //쿼리스트링 추출
     var arr = location.href.split("?")
@@ -31,16 +31,16 @@
 
     //쿼리스트링에서 이메일 추출
     var params = new URLSearchParams(qs)
-    var index = params.get("index")
-    console.log(index)
+    var no = params.get("no")
+    console.log(no)
     
-    if (index == null) {
+    if (no == null) {
     alert("이메일 값이 없습니다.");
     throw "파라미터 오류";
     }
   
     //서버에서 데이터 가져오기
-    fetch(`/board/get?index=${index}`)
+    fetch(`/board/get?no=${no}`)
     .then(function(response){
       return response.json()
     })
@@ -50,7 +50,7 @@
       xTitle.value = board.title
       xContent.value = board.content
       xViewCount.innerHTML = board.viewCount
-      xCreateDate.innerHTML = board.createDate
+      xCreatedDate.innerHTML = board.createdDate
     })
 
     document.querySelector("#update-btn").onclick = function() {
@@ -58,14 +58,14 @@
         window.alert("항목이 비었습니다.")
         return
       }
-      fetch(`/board/update?index=${index}&title=${xTitle.value}&content=${xContent.value}`)
+      fetch(`/board/update?no=${no}&title=${xTitle.value}&content=${xContent.value}`)
       .then(function(){
         location.href = "index.html"
       })
     }
 
     document.querySelector("#delete-btn").onclick = function() {
-      fetch(`/board/delete?index=${index}`)
+      fetch(`/board/delete?no=${no}`)
       .then(function(){
         location.href = "index.html"
       })

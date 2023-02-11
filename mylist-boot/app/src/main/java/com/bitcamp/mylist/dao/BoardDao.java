@@ -5,17 +5,17 @@ import com.bitcamp.mylist.domain.Board;
 
 public interface BoardDao {
 
-  int countAll() throws Exception;
+  int countAll();
 
-  List<Board> findAll() throws Exception;
+  List<Board> findAll();
 
-  int insert(Board board) throws Exception;
+  int insert(Board board);
 
-  Board findByNo(int no) throws Exception;
+  Board findByNo(int no);
 
-  int update(Board board) throws Exception;
+  int update(Board board);
 
-  int delete(int no) throws Exception; 
+  int delete(int no); 
 
-  int increaseViewCount(int no) throws Exception;
+  int increaseViewCount(int no);
 }
