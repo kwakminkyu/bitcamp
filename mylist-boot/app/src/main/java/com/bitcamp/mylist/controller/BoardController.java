@@ -1,6 +1,5 @@
 package com.bitcamp.mylist.controller;
 
-import java.sql.Date;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -18,36 +17,28 @@ public class BoardController {
   }
 
   @RequestMapping("/board/list")
-  public Object list() {
+  public Object list() throws Exception {
     return boardDao.findAll();
   }
 
   @RequestMapping("/board/add")
   public Object add(Board board) throws Exception {
-    board.setCreateDate(new Date(System.currentTimeMillis()));
-    boardDao.insert(board);
-    return boardDao.countAll();
+    return boardDao.insert(board);
   }
 
   @RequestMapping("/board/get")
-  public Object get(int index) throws Exception {
-    Board board = boardDao.findByNo(index);
+  public Object get(int no) throws Exception {
+    Board board = boardDao.findByNo(no);
     if(board == null) {
       return "";
     }
-    boardDao.increaseViewCount(index);
+    boardDao.increaseViewCount(no);
     return board;
   }
 
   @RequestMapping("/board/update")
-  public Object update(int index, Board board) throws Exception {
-    Board old = boardDao.findByNo(index);
-    if(old == null) {
-      return 0;
-    }
-    board.setViewCount(old.getViewCount());
-    board.setCreateDate(old.getCreateDate());
-    return boardDao.update(index, board);
+  public Object update(Board board) throws Exception {
+    return boardDao.update(board);
   }
 
   @RequestMapping("/board/delete")

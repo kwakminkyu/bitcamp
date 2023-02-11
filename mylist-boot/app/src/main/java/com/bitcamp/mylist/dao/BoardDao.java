@@ -1,20 +1,21 @@
 package com.bitcamp.mylist.dao;
 
+import java.util.List;
 import com.bitcamp.mylist.domain.Board;
 
 public interface BoardDao {
 
-  int countAll();
+  int countAll() throws Exception;
 
-  Object[] findAll();
+  List<Board> findAll() throws Exception;
 
-  void insert(Board board) throws Exception;
+  int insert(Board board) throws Exception;
 
-  Board findByNo(int no);
+  Board findByNo(int no) throws Exception;
 
-  int update(int no, Board board) throws Exception;
+  int update(Board board) throws Exception;
 
   int delete(int no) throws Exception; 
 
-  void increaseViewCount(int no) throws Exception;
+  int increaseViewCount(int no) throws Exception;
 }
