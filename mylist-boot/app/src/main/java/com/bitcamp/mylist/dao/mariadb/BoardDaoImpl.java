@@ -1,12 +1,14 @@
 package com.bitcamp.mylist.dao.mariadb;
 
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
+import javax.sql.DataSource;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+import com.bitcamp.mylist.App;
 import com.bitcamp.mylist.dao.BoardDao;
 import com.bitcamp.mylist.dao.DaoException;
 import com.bitcamp.mylist.domain.Board;
@@ -14,14 +16,16 @@ import com.bitcamp.mylist.domain.Board;
 @Repository
 public class BoardDaoImpl implements BoardDao {
 
+  @Autowired
+  DataSource dataSource;
+
   public BoardDaoImpl() {
     System.out.println("JdbcBoardDao 객체 생성");
   }
 
   @Override
   public int countAll() {
-    try (Connection con = DriverManager.getConnection( 
-        "jdbc:mariadb://localhost:3306/mylist_db?user=study&password=1111");
+    try (Connection con = App.dataSource.getConnection();
         PreparedStatement stmt = con.prepareStatement( 
             "select count(*) from ml_board");
         ResultSet rs = stmt.executeQuery()) {
@@ -35,8 +39,7 @@ public class BoardDaoImpl implements BoardDao {
 
   @Override
   public List<Board> findAll() {
-    try (Connection con = DriverManager.getConnection( 
-        "jdbc:mariadb://localhost:3306/mylist_db?user=study&password=1111");
+    try (Connection con = App.dataSource.getConnection();
         PreparedStatement stmt = con.prepareStatement( 
             "select board_no,title,created_date,view_count from ml_board order by board_no desc");
         ResultSet rs = stmt.executeQuery()) {
@@ -58,10 +61,8 @@ public class BoardDaoImpl implements BoardDao {
 
   @Override
   public int insert(Board board) {
-    try (Connection con = DriverManager.getConnection( //
-        "jdbc:mariadb://localhost:3306/mylist_db?user=study&password=1111");
-        PreparedStatement stmt =
-            con.prepareStatement("insert into ml_board(title,content) values(?,?)");) {
+    try (Connection con = App.dataSource.getConnection();
+        PreparedStatement stmt = con.prepareStatement("insert into ml_board(title,content) values(?,?)");) {
 
       stmt.setString(1, board.getTitle());
       stmt.setString(2, board.getContent());
@@ -74,8 +75,7 @@ public class BoardDaoImpl implements BoardDao {
 
   @Override
   public Board findByNo(int no) {
-    try (Connection con = DriverManager.getConnection(
-        "jdbc:mariadb://localhost:3306/mylist_db?user=study&password=1111");
+    try (Connection con = App.dataSource.getConnection();
         PreparedStatement stmt = con.prepareStatement(
             "select board_no,title,content,created_date,view_count from ml_board where board_no=?")) {
 
@@ -100,8 +100,7 @@ public class BoardDaoImpl implements BoardDao {
 
   @Override
   public int update(Board board) {
-    try (Connection con = DriverManager.getConnection(
-        "jdbc:mariadb://localhost:3306/mylist_db?user=study&password=1111");
+    try (Connection con = App.dataSource.getConnection();
         PreparedStatement stmt = con.prepareStatement(
             "update ml_board set title=?, content=? where board_no=?")) {
 
@@ -117,8 +116,7 @@ public class BoardDaoImpl implements BoardDao {
 
   @Override
   public int delete(int no) {
-    try (Connection con = DriverManager.getConnection(
-        "jdbc:mariadb://localhost:3306/mylist_db?user=study&password=1111");
+    try (Connection con = App.dataSource.getConnection();
         PreparedStatement stmt = con.prepareStatement(
             "delete from ml_board where board_no=?")) {
 
@@ -131,8 +129,7 @@ public class BoardDaoImpl implements BoardDao {
 
   @Override
   public int increaseViewCount(int no) {
-    try (Connection con = DriverManager.getConnection(
-        "jdbc:mariadb://localhost:3306/mylist_db?user=study&password=1111");
+    try (Connection con = App.dataSource.getConnection();
         PreparedStatement stmt = con.prepareStatement(
             "update ml_board set view_count=view_count + 1 where board_no=?")) {
 
