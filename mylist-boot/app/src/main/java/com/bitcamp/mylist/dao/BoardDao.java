@@ -1,8 +1,10 @@
 package com.bitcamp.mylist.dao;
 
 import java.util.List;
+import org.apache.ibatis.annotations.Mapper;
 import com.bitcamp.mylist.domain.Board;
 
+@Mapper
 public interface BoardDao {
 
   int countAll();

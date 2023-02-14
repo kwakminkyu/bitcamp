@@ -13,6 +13,10 @@ import org.springframework.web.bind.annotation.RestController;
 @SpringBootApplication
 public class App {
 
+  public static void main(String[] args) {
+    SpringApplication.run(App.class, args);
+  }
+
   public static DataSource dataSource;
 
   @Bean
@@ -32,12 +36,7 @@ public class App {
     }
   }
 
-
-  public static void main(String[] args) {
-    SpringApplication.run(App.class, args);
-  }
-
-  @Bean
+  //  @Bean
   public CommandLineRunner commandLineRunner(ApplicationContext beanContainer) {
     return args -> {
 
