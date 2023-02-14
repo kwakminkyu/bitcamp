@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bitcamp.mylist.dao.BookDao">
+  
+  <resultMap id="bookMap" type="book">
+    <id column="book_no" property="no"/>
+    <result column="title" property="title"/>
+    <result column="author" property="author"/>
+    <result column="press" property="press"/>
+    <result column="page" property="page"/>
+    <result column="price" property="price"/>
+    <result column="read_date" property="readDate"/>
+    <result column="feed" property="feed"/>
+  </resultMap>
+  
+  <select id="countAll" resultType="int">
+    select count(*) from ml_book
+  </select>
+  
+  <select id="findAll" resultMap="bookMap">
+    select 
+      book_no,
+      title,
+      author,
+      press,
+      page
+    from
+      ml_book
+    order by
+      title asc
+  </select>
+  
+   <insert id="insert" parameterType="Book">
+    insert into ml_book(title,author,press,page,price,read_date,feed)
+    values(#{title},#{author},#{press},#{page},#{price},#{readDate},#{feed})
+  </insert>
+  
+  <select id="findByNo" resultMap="bookMap" parameterType="int">
+    select
+      book_no,
+      title,
+      author,
+      press,
+      page,
+      price,
+      read_date,
+      feed
+    from
+      ml_book
+    where
+      book_no=#{no}
+  </select>
+  
+  <update id="update" parameterType="Book">
+    update ml_book set
+      title=#{title},
+      author=#{author},
+      press=#{press},
+      page=#{page},
+      price=#{price},
+      read_date=#{readDate},
+      feed=#{feed}
+    where
+      book_no=#{no}
+  </update>
+  
+  <delete id="delete" parameterType="int">
+    delete from ml_book
+    where book_no=#{no}
+  </delete>
+  
+</mapper>

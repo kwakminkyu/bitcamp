@@ -12,26 +12,26 @@
     <result column="created_date" property="createdDate"/>
   </resultMap>
   
-  <select id="findAll" resultType="boardMap">
+  <select id="findAll" resultMap="boardMap">
     select 
-      board_no as no,
+      board_no,
       title,
       content,
-      view_count as viewCount,
-      created_date as createdDate
+      view_count,
+      created_date
     from
       ml_board
     order by
       board_no desc
   </select>
   
-  <select id="findByNo" resultType="boardMap" parameterType="int">
+  <select id="findByNo" resultMap="boardMap" parameterType="int">
     select
-      board_no as no,
+      board_no,
       title,
       content,
-      view_count as viewCount,
-      created_date as createdDate
+      view_count,
+      created_date
     from
       ml_board
     where

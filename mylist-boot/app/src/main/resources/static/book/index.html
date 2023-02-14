@@ -26,11 +26,9 @@
       return response.json();
     })
     .then(function(books){
-      for (var i = 0; i < books.length; i++) {
-      console.log(books)
-      var book = books[i]
+      for (book of books) {
       var tr = document.createElement("tr")
-      tr.innerHTML = `<td><a href="view.html?index=${i}">${book.title}</a></td>
+      tr.innerHTML = `<td><a href="view.html?no=${book.no}">${book.title}</a></td>
                       <td>${book.author}</td>
                       <td>${book.press}</td>
                       <td>${book.page}</td>`

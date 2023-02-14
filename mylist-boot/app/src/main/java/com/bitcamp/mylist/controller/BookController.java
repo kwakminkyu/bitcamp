@@ -23,23 +23,24 @@ public class BookController {
   }
 
   @RequestMapping("/book/add")
-  public Object add(Book book) throws Exception {
+  public Object add(Book book) {
     bookDao.insert(book);
     return bookDao.countAll();
   }
 
   @RequestMapping("/book/get")
-  public Object get(int index) {
-    return bookDao.findByNo(index);
+  public Object get(int no) {
+    Book book = bookDao.findByNo(no);
+    return book != null ? book : "";
   }
 
   @RequestMapping("/book/update")
-  public Object update(int index, Book book) throws Exception {
-    return bookDao.update(index, book);
+  public Object update(Book book) {
+    return bookDao.update(book);
   }
 
   @RequestMapping("/book/delete")
-  public Object delete(int index) throws Exception{
-    return bookDao.delete(index);
+  public Object delete(int no) {
+    return bookDao.delete(no);
   }
 }

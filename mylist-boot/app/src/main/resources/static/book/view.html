@@ -38,16 +38,16 @@
 
     //쿼리스트링에서 이메일 추출
     var params = new URLSearchParams(qs)
-    var index = params.get("index")
-    console.log(index)
+    var no = params.get("no")
+    console.log(no)
     
-    if (index == null) {
+    if (no == null) {
     alert("이메일 값이 없습니다.");
     throw "파라미터 오류";
     }
   
     //서버에서 데이터 가져오기
-    fetch(`/book/get?index=${index}`)
+    fetch(`/book/get?no=${no}`)
     .then(function(response){
       return response.json()
     })
@@ -74,14 +74,14 @@
         qs += `&readDate=${xReadDate.value}`
       }
       
-      fetch(`/book/update?index=${index}&${qs}`)
+      fetch(`/book/update?no=${no}&${qs}`)
       .then(function(){
         location.href = "index.html"
       })
     }
     
     document.querySelector("#delete-btn").onclick = function() {
-      fetch(`/book/delete?index=${index}`)
+      fetch(`/book/delete?no=${no}`)
       .then(function(){
         location.href = "index.html"
       })
