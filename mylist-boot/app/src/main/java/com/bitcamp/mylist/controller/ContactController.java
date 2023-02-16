@@ -12,7 +12,7 @@ public class ContactController {
   @Autowired
   ContactDao contactDao;
 
-  public ContactController() throws Exception {
+  public ContactController() {
     System.out.println("ContactController() 호출됨!");
   }
 
@@ -22,23 +22,24 @@ public class ContactController {
   }
 
   @RequestMapping("/contact/add")
-  public Object add(Contact contact) throws Exception {
+  public Object add(Contact contact) {
     contactDao.insert(contact);
     return contactDao.countAll();
   }
 
   @RequestMapping("/contact/get")
-  public Object get(String email) {
-    return contactDao.findByEmail(email);
+  public Object get(int no) {
+    Contact contact = contactDao.findByNo(no);
+    return contact != null ? contact : "";
   }
 
   @RequestMapping("/contact/update")
-  public Object update(Contact contact) throws Exception  {
+  public Object update(Contact contact) {
     return contactDao.update(contact);
   }
 
   @RequestMapping("/contact/delete")
-  public Object delete(String email) throws Exception  {
-    return contactDao.delete(email);
+  public Object delete(int no) {
+    return contactDao.delete(no);
   }
 }

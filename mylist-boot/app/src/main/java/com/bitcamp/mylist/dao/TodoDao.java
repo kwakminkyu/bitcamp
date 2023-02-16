@@ -1,18 +1,22 @@
 package com.bitcamp.mylist.dao;
 
+import java.util.List;
+import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 import com.bitcamp.mylist.domain.Todo;
 
+@Mapper
 public interface TodoDao {
 
   int countAll();
 
-  Object[] findAll();
+  List<Todo> findAll();
 
-  void insert(Todo todo) throws Exception;
+  void insert(Todo todo);
 
-  int update(int no, Todo todo) throws Exception;
+  int update(Todo todo);
 
-  Object check(int no, boolean done);
+  int updateDone(@Param("no") int no, @Param("done") boolean done);
 
-  int delete(int no) throws Exception; 
+  int delete(int no);
 }

@@ -16,7 +16,6 @@ public class BookController {
     System.out.println("BookController() 호출됨!");
   }
 
-
   @RequestMapping("/book/list")
   public Object list() {
     return bookDao.findAll();

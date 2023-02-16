@@ -1,18 +1,25 @@
 package com.bitcamp.mylist.dao;
 
+import java.util.List;
+import org.apache.ibatis.annotations.Mapper;
 import com.bitcamp.mylist.domain.Contact;
 
+@Mapper
 public interface ContactDao {
 
   int countAll();
 
-  Object[] findAll();
+  List<Contact> findAll();
 
-  void insert(Contact contact) throws Exception;
+  void insert(Contact contact);
+
+  Contact findByNo(int no);
 
   Contact findByEmail(String email);
 
-  int update(Contact contact) throws Exception;
+  List<Contact> findByName(String name);
 
-  int delete(String email) throws Exception; 
+  int update(Contact contact);
+
+  int delete(int no); 
 }

@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bitcamp.mylist.dao.ContactDao">
+  
+  <resultMap id="contactMap" type="contact">
+    <id column="contact_no" property="no"/>
+    <result column="name" property="name"/>
+    <result column="email" property="email"/>
+    <result column="tel" property="tel"/>
+    <result column="company" property="company"/>
+  </resultMap>
+  
+  <select id="countAll" resultType="int">
+    select count(*) from ml_contact
+  </select>
+  
+  <select id="findAll" resultMap="contactMap">
+    select 
+      contact_no,
+      name,
+      email,
+      tel,
+      company
+    from
+      ml_contact
+    order by
+      name asc
+  </select>
+  
+   <insert id="insert" parameterType="Contact">
+    insert into ml_contact(name,email,tel,company)
+    values(#{name},#{email},#{tel},#{company})
+  </insert>
+  
+  <select id="findByNo" resultMap="contactMap" parameterType="int">
+    select
+      contact_no,
+      name,
+      email,
+      tel,
+      company
+    from
+      ml_contact
+    where
+      contact_no=#{no}
+  </select>
+
+  <select id="findByEmail" resultMap="contactMap" parameterType="string">
+    select
+      contact_no,
+      name,
+      email,
+      tel,
+      company
+    from
+      ml_contact
+    where
+      email=#{email}
+  </select>
+  
+  <select id="findByName" resultMap="contactMap" parameterType="string">
+    select
+      contact_no,
+      name,
+      email,
+      tel,
+      company
+    from
+      ml_contact
+    where
+      name=#{name}
+  </select>
+  
+  <update id="update" parameterType="Contact">
+    update ml_contact set
+      name=#{name},
+      email=#{email},
+      tel=#{tel},
+      company=#{company}
+    where
+      contact_no=#{no}
+  </update>
+  
+  <delete id="delete" parameterType="int">
+    delete from ml_contact
+    where contact_no=#{no}
+  </delete>
+  
+</mapper>

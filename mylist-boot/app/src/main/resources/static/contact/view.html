@@ -33,15 +33,15 @@
     //쿼리스트링에서 이메일 추출
     var params = new URLSearchParams(qs)
     console.log(params)
-    var email = params.get("email")
+    var no = params.get("no")
 
-    if (email == null) {
-    alert("이메일 값이 없습니다.");
+    if (no == null) {
+    alert("값이 없습니다.");
     throw "파라미터 오류";
     }
   
     //서버에서 데이터 가져오기
-    fetch(`/contact/get?email=${email}`)
+    fetch(`/contact/get?no=${no}`)
     .then(function(response){
       return response.json()
     })
@@ -58,14 +58,14 @@
         window.alert("필수 입력 항목이 비었습니다.")
         return
       }
-      fetch(`/contact/update?name=${xName.value}&email=${xEmail.value}&tel=${xTel.value}&company=${xCompany.value}`)
+      fetch(`/contact/update?no=${no}&name=${xName.value}&email=${xEmail.value}&tel=${xTel.value}&company=${xCompany.value}`)
       .then(function(){
         location.href = "index.html"
       })
     }
 
     document.querySelector("#delete-btn").onclick = function() {
-      fetch(`/contact/delete?email=${xEmail.value}`)
+      fetch(`/contact/delete?no=${no}`)
       .then(function(){
         location.href = "index.html"
       })

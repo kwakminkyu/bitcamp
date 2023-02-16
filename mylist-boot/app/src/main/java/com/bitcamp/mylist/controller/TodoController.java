@@ -22,23 +22,23 @@ public class TodoController {
   }
 
   @RequestMapping("/todo/add")
-  public Object add(Todo todo) throws Exception {
+  public Object add(Todo todo) {
     todoDao.insert(todo);
     return todoDao.countAll();
   }
 
   @RequestMapping("/todo/update")
-  public Object update(int index, Todo todo) throws Exception {
-    return todoDao.update(index, todo);
+  public Object update(Todo todo) {
+    return todoDao.update(todo);
   }
 
   @RequestMapping("/todo/check")
-  public Object check(int index, boolean done) {
-    return todoDao.check(index, done);
+  public Object check(int no, boolean done) {
+    return todoDao.updateDone(no, done);
   }
 
   @RequestMapping("/todo/delete")
-  public Object delete(int index) throws Exception {
-    return todoDao.delete(index);
+  public Object delete(int no) {
+    return todoDao.delete(no);
   }
 }
