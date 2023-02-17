@@ -1,7 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
+  <head>
+    <meta charset="UTF-8">
+    <script src="../$.js"></script>
   <title>To-do</title>
   <style>
     .todo-checked {
@@ -32,16 +33,16 @@
   <input type="text" id="title-input">
 
   <script>
-    var titleInput = document.querySelector("#title-input")
-    titleInput.style["display"] = "none"
+    var titleInput = $("#title-input")
+    titleInput.css("display", "none")
 
-    var tbody = document.querySelector("#todo-tbl")
+    var tbody = $("#todo-tbl")
 
-    document.querySelector("#todo-input").onkeyup = function(e) {
+    $("#todo-input").keyup(function(e) {
       if (e.keyCode == 27) {
-        e.target.value = ""
+        $(e.target).val("")
       } else if (e.keyCode == 13) {
-        if (e.target.value == "") {
+        if ($(e.target).val() == "") {
         window.alert("필수 입력 항목이 비었습니다.")
         return
         }
@@ -54,7 +55,7 @@
           location.reload()
         })
       }
-    }
+    })
 
     // 삭제 버튼은 동적 태그 이므로 부모 태그에 이벤트를 준다.
     // tbody.onclick = function(e) {
@@ -81,35 +82,35 @@
     .then(function(todoList){
       console.log(todoList)
       for (todo of todoList) {
-      var tr = document.createElement("tr")
-      tr.setAttribute("data-no", todo.no)
+      
       var checkedOption = ""
       var titleTdOption = ""
       if (todo.done) {
         checkedOption = "checked"
         titleTdOption = "class='todo-checked'"
       }
-      tr.innerHTML = `<td><input type="checkbox" ${checkedOption} onchange="checkTodo(${todo.no}, event.target.checked)"></td>
+      $("<tr>").attr("data-no", todo.no).html(
+                      `<td><input type="checkbox" ${checkedOption} onchange="checkTodo(${todo.no}, event.target.checked)"></td>
                       <td class="todo-title"><span ${titleTdOption}>${todo.title}</span></td>
                       <td><button type="button" onclick="updateTodo(${todo.no})">변경</button></td>
                       <td><button type="button" onclick="deleteTodo(${todo.no})">삭제</button></td>`
-      tbody.appendChild(tr)
+                      ).appendTo(tbody)
      }
-     document.querySelector("#todo-input").focus()
+     $("#todo-input").focus()
     })
 
     function updateTodo(no) {
-      var titleTd = document.querySelector(`tr[data-no="${no}"] > td.todo-title`)
-      var titleSpan = titleTd.querySelector("span")
+      var titleTd = $(`tr[data-no="${no}"] > td.todo-title`)
+      var titleSpan = titleTd.find("span")
 
       if (titleInput.parentNode instanceof HTMLTableCellElement) {
-        titleInput.parentNode.querySelector("span").style["display"] = ""
+        titleInput.parent().find("span").css("display", "")
       }
-      titleSpan.style["display"] = "none"
-      titleInput.value  = titleSpan.innerHTML
+      titleSpan.css("display", "none")
+      titleInput.val(titleSpan.html()) 
       titleTd.appendChild(titleInput)
-      titleInput.setAttribute("data-no", no)
-      titleInput.style["display"] = ""
+      titleInput.attr("data-no", no)
+      titleInput.css("display", "")
     }
     
     
@@ -135,21 +136,21 @@
           if (result == 0) {
             window.alert("변경 실패")
           } else {
-            var titleSpan = document.querySelector(`tr[data-no="${no}"] > td.todo-title > span`)
+            var titleSpan = $(`tr[data-no="${no}"] > td.todo-title > span`)
             if (checked) {
-              titleSpan.classList.add("todo-checked")
+              titleSpan.addClass("todo-checked")
             } else {
-              titleSpan.classList.remove("todo-checked")
+              titleSpan.removeClass("todo-checked")
             }
           }
         })
       })
     }
 
-    titleInput.onkeyup = function(e) {
+    titleInput.keyup(function(e) {
       var no = titleInput.getAttribute("data-no")
-      var titleSpan = titleInput.parentNode.querySelector("span")
-      var originTitle = titleSpan.innerHTML
+      var titleSpan = titleInput.parent().find("span")
+      var originTitle = titleSpan.html()
 
       if (e.keyCode == 27) {
         cancelTodoEditing()
@@ -163,16 +164,16 @@
             window.alert("변경 실패")
           } else {
             console.log("변경 완료")
-            titleSpan.innerHTML = titleInput.value
+            titleSpan.html(titleInput.val())
             cancelTodoEditing()
           }
         })
       }
-    }
+    })
     
     function cancelTodoEditing() {
-      titleInput.parentNode.querySelector("span").style["display"] = ""
-      titleInput.style["display"] = "none"
+      titleInput.parent().find("span").css("display", "")
+      titleInput.css("display", "none")
       document.body.appendChild(titleInput)
     }
   </script>
