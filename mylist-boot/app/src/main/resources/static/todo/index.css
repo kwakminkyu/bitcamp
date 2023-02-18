@@ -1,0 +1,9 @@
+@charset "UTF-8";
+
+.todo-checked {
+  text-decoration: line-through;
+  color: gray;
+}
+.todo-editing {
+  display: none;
+}
