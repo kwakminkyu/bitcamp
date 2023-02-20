@@ -9,7 +9,20 @@
   <form>
     이름*: <input id="x-name" type="text"><br>
     이메일*: <input id="x-email" type="text" readonly><br>
-    전화*: <input id="x-tel" type="text"><br>
+    <div id="x-tel-div-container">
+      <div class="x-tel-div">
+      전화*: <select>
+              <option value="1">전화</option>
+              <option value="2">팩스</option>
+              <option value="3">휴대전화</option>
+              <option value="4">직장전화</option>
+              <option value="5">직장팩스</option>
+            </select>
+            <input type="text">
+            <button type="button" onclick="deleteDiv(event)">삭제</button>
+      </div>
+    </div>
+    <button type="button" id="x-add-tel-btn">전화번호 추가</button><br>
     회사: <input id="x-company" type="text"><br>
     별표(*) 항목은 필수 입력 항목입니다.<br>
     <button id="update-btn" type="button">변경</button>
@@ -19,8 +32,8 @@
   <script>
     var xName = document.querySelector("#x-name")
     var xEmail = document.querySelector("#x-email")
-    var xTel = document.querySelector("#x-tel")
     var xCompany = document.querySelector("#x-company")
+    var xTelDivContainer = document.querySelector("#x-tel-div-container")
 
     //쿼리스트링 추출
     var arr = location.href.split("?")
@@ -49,20 +62,40 @@
     // 화면에 내용 출력
       xName.value = contact.name
       xEmail.value = contact.email
-      xTel.value = contact.tel
       xCompany.value = contact.company
+      for (var i = 0; i < contact.tels.length; i++) {
+        document.querySelector("#x-add-tel-btn").click()
+      }
+      var xTelDivList = xTelDivContainer.querySelectorAll(".x-tel-div")
+      for (var i = 0; i <contact.tels.length; i++) {
+        var xTelType = xTelDivList[i].querySelector("select")
+        var xTel = xTelDivList[i].querySelector("input")
+
+        xTelType.value = contact.tels[i].telTypeNo
+        xTel.value = contact.tels[i].tel
+      }
     })
 
     document.querySelector("#update-btn").onclick = function() {
-      if (xName.value == "" || xEmail.value == "" || xTel.value == "") {
+      var xTelDivList = xTelDivContainer.querySelectorAll(".x-tel-div")
+      var firstTel = xTelDivList[0].querySelector("input")
+      if (xName.value == "" || xEmail.value == "" || firstTel.value == "") {
         window.alert("필수 입력 항목이 비었습니다.")
         return
       }
-      fetch(`/contact/update?no=${no}&name=${xName.value}&email=${xEmail.value}&tel=${xTel.value}&company=${xCompany.value}`)
-      .then(function(){
+
+      var qs = `name=${xName.value}&email=${xEmail.value}&company=${xCompany.value}`
+      for (var xTelDiv of xTelDivList) {
+        var xTelType = xTelDiv.querySelector("select")
+        var xTel = xTelDiv.querySelector("input")
+        qs += `&tel=${xTelType.value}_${xTel.value}`
+      }
+
+      fetch(`/contact/update?no=${no}&${qs}`)
+      .then(function() {
         location.href = "index.html"
       })
-    }
+    } 
 
     document.querySelector("#delete-btn").onclick = function() {
       fetch(`/contact/delete?no=${no}`)
@@ -73,6 +106,19 @@
     
     document.querySelector("#cancel-btn").onclick = function() {
       window.location.href = "index.html"
+    }
+
+    document.querySelector("#x-add-tel-btn").onclick = function() {
+      var telDiv = xTelDivContainer.querySelector(".x-tel-div").cloneNode(true)
+      telDiv.querySelector("select").value = 1
+      telDiv.querySelector("input").value = ""
+      xTelDivContainer.appendChild(telDiv)
+    }
+
+    function deleteDiv(e) {
+      if (xTelDivContainer.childElementCount > 1) {
+        xTelDivContainer.removeChild(e.target.parentNode)
+      }
     }
   </script>
 </body>

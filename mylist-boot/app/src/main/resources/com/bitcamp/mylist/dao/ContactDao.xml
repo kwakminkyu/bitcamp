@@ -8,9 +8,16 @@
     <id column="contact_no" property="no"/>
     <result column="name" property="name"/>
     <result column="email" property="email"/>
-    <result column="tel" property="tel"/>
     <result column="company" property="company"/>
   </resultMap>
+  
+  <resultMap id="contactTelMap" type="contactTel">
+    <id column="ct_no" property="no"/>
+    <result column="contact_no" property="contactNo"/>
+    <result column="tt_no" property="telTypeNo"/>
+    <result column="tel" property="tel"/>
+  </resultMap>
+  
   
   <select id="countAll" resultType="int">
     select count(*) from ml_contact
@@ -21,7 +28,6 @@
       contact_no,
       name,
       email,
-      tel,
       company
     from
       ml_contact
@@ -29,9 +35,9 @@
       name asc
   </select>
   
-   <insert id="insert" parameterType="Contact">
-    insert into ml_contact(name,email,tel,company)
-    values(#{name},#{email},#{tel},#{company})
+   <insert id="insert" parameterType="Contact" keyProperty="no" keyColumn="contact_no" useGeneratedKeys="true">
+    insert into ml_contact(name,email,company)
+    values(#{name},#{email},#{company})
   </insert>
   
   <select id="findByNo" resultMap="contactMap" parameterType="int">
@@ -39,7 +45,6 @@
       contact_no,
       name,
       email,
-      tel,
       company
     from
       ml_contact
@@ -52,7 +57,6 @@
       contact_no,
       name,
       email,
-      tel,
       company
     from
       ml_contact
@@ -65,7 +69,6 @@
       contact_no,
       name,
       email,
-      tel,
       company
     from
       ml_contact
@@ -77,7 +80,6 @@
     update ml_contact set
       name=#{name},
       email=#{email},
-      tel=#{tel},
       company=#{company}
     where
       contact_no=#{no}
@@ -88,4 +90,38 @@
     where contact_no=#{no}
   </delete>
   
+  <select id="findTelByContactNo" parameterType="int" resultMap="contactTelMap">
+    select
+      ct_no,
+      contact_no,
+      tt_no,
+      tel
+    from
+      ml_cont_tel
+    where
+      contact_no=#{no}
+  </select>
+  
+  <insert id="insertTel" parameterType="contactTel">
+    insert into ml_cont_tel(contact_no, tt_no, tel)
+    values(#{contactNo}, #{telTypeNo}, #{tel})
+  </insert>
+  
+  <update id="updateTel" parameterType="contactTel">
+    update ml_cont_tel set
+      tt_no=#{telTypeNo},
+      tel=#{tel}
+    where
+      ct_no=#{no}
+  </update>
+  
+  <delete id="deleteTel" parameterType="int">
+    delete from ml_cont_tel
+    where ct_no=#{no}
+  </delete>
+  
+  <delete id="deleteTelByContactNo" parameterType="int">
+    delete from ml_cont_tel
+    where contact_no=#{no}
+  </delete>
 </mapper>

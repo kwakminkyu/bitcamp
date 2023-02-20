@@ -9,6 +9,7 @@
   <p><a href="form.html">새 연락처</a></p>
   <table border="1">
     <thead>
+      <th>번호</th>
       <th>이름</th>
       <th>이메일</th>
       <th>전화</th>
@@ -28,9 +29,10 @@
     .then(function(contacts){
       for (var contact of contacts) {
       var tr = document.createElement("tr")
-      tr.innerHTML = `<td><a href="view.html?no=${contact.no}">${contact.name}</a></td>
+      tr.innerHTML = `<td><a href="view.html?no=${contact.no}">${contact.no}</a></td>
+                      <td>${contact.name}</td>
                       <td>${contact.email}</td>
-                      <td>${contact.tel}</td>
+                      <td>${contact.tels.length > 0 ? contact.tels[0].tel : ""}</td>
                       <td>${contact.company}</td>`
       tbody.appendChild(tr)
      }
