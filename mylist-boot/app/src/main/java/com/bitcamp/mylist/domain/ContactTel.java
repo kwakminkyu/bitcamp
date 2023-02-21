@@ -11,10 +11,14 @@ public class ContactTel {
     System.out.println("ContactTel() 호출");
   }
 
-  public ContactTel(int contactNo, int telTypeNo, String tel) {
-    this.contactNo = contactNo;
+  public ContactTel(int telTypeNo, String tel) {
     this.telTypeNo = telTypeNo;
     this.tel = tel;
+  }
+
+  public ContactTel(int contactNo, int telTypeNo, String tel) {
+    this(telTypeNo, tel);
+    this.contactNo = contactNo;
   }
 
   @Override
