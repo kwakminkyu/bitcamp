@@ -2,6 +2,7 @@ package com.bitcamp.mylist.dao;
 
 import java.util.List;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 import com.bitcamp.mylist.domain.Contact;
 import com.bitcamp.mylist.domain.ContactTel;
 
@@ -27,6 +28,8 @@ public interface ContactDao {
   List<ContactTel> findTelByContactNo(int contactNo);
 
   int insertTel(ContactTel tel);
+
+  int insertTels(@Param("contactNo") int contactNo,@Param("tels") List<ContactTel> tels);
 
   int updateTel(ContactTel tel);
 

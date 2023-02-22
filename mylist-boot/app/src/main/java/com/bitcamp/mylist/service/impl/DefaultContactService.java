@@ -6,7 +6,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import com.bitcamp.mylist.dao.ContactDao;
 import com.bitcamp.mylist.domain.Contact;
-import com.bitcamp.mylist.domain.ContactTel;
 import com.bitcamp.mylist.service.ContactService;
 
 @Service
@@ -15,44 +14,36 @@ public class DefaultContactService implements ContactService {
   @Autowired
   ContactDao contactDao;
 
+  @Override
   @Transactional
   public int add(Contact contact) {
     contactDao.insert(contact);
-    for (ContactTel tel : contact.getTels()){
-      tel.setContactNo(contact.getNo());
-      contactDao.insertTel(tel);
-    }
+    contactDao.insertTels(contact.getNo(), contact.getTels());
     return 1;
   }
 
+  @Override
   public List<Contact> list() {
-    List<Contact> contacts = contactDao.findAll();
-    for (Contact contact : contacts) {
-      contact.setTels(contactDao.findTelByContactNo(contact.getNo()));
-    }
-    return contacts;
+    return contactDao.findAll();
   }
 
+  @Override
   public Contact get(int no) {
-    Contact contact = contactDao.findByNo(no);
-    if (contact != null) {
-      contact.setTels(contactDao.findTelByContactNo(no));
-    }
-    return contact;
+    return contactDao.findByNo(no);
   }
 
+  @Override
   @Transactional
   public int update(Contact contact) {
     int count = contactDao.update(contact);
     if (count > 0) {
       contactDao.deleteTelByContactNo(contact.getNo()); 
-      for (ContactTel tel : contact.getTels()){
-        contactDao.insertTel(tel);
-      }
+      contactDao.insertTels(contact.getNo(), contact.getTels());
     }
     return count;
   }
 
+  @Override
   @Transactional
   public int delete(int no) {
     contactDao.deleteTelByContactNo(no);
