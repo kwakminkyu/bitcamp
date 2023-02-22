@@ -7,9 +7,10 @@ import org.springframework.transaction.annotation.Transactional;
 import com.bitcamp.mylist.dao.ContactDao;
 import com.bitcamp.mylist.domain.Contact;
 import com.bitcamp.mylist.domain.ContactTel;
+import com.bitcamp.mylist.service.ContactService;
 
 @Service
-public class DefaultContactService {
+public class DefaultContactService implements ContactService {
 
   @Autowired
   ContactDao contactDao;
