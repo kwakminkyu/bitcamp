@@ -13,6 +13,7 @@
     <result column="price" property="price"/>
     <result column="read_date" property="readDate"/>
     <result column="feed" property="feed"/>
+    <result column="photo" property="photo"/>
   </resultMap>
   
   <select id="countAll" resultType="int">
@@ -25,7 +26,8 @@
       title,
       author,
       press,
-      page
+      page,
+      photo
     from
       ml_book
     order by
@@ -33,8 +35,8 @@
   </select>
   
    <insert id="insert" parameterType="Book">
-    insert into ml_book(title,author,press,page,price,read_date,feed)
-    values(#{title},#{author},#{press},#{page},#{price},#{readDate},#{feed})
+    insert into ml_book(title,author,press,page,price,read_date,feed,photo)
+    values(#{title},#{author},#{press},#{page},#{price},#{readDate},#{feed},#{photo})
   </insert>
   
   <select id="findByNo" resultMap="bookMap" parameterType="int">
@@ -46,7 +48,8 @@
       page,
       price,
       read_date,
-      feed
+      feed,
+      photo
     from
       ml_book
     where
@@ -62,6 +65,9 @@
       price=#{price},
       read_date=#{readDate},
       feed=#{feed}
+    <if test="photo != null">
+      ,photo=#{photo}
+    </if>
     where
       book_no=#{no}
   </update>

@@ -6,40 +6,41 @@
 </head>
 <body>
   <h1>새 독서록</h1>
-  <form>
-    제목*: <input id="x-title" type="text"><br>
-    저자*: <input id="x-author" type="text"><br>
-    출판사: <input id="x-press" type="text"><br>
-    페이지: <input id="x-page" type="number"><br>
-    가격: <input id="x-price" type="number"><br>
-    독서일: <input id="x-readDate" type="date"><br>
-    소감*: <textarea id="x-feed" cols="60" rows="10"></textarea><br>
+  <form name="form1">
+    제목*: <input name="title" type="text"><br>
+    저자*: <input name="author" type="text"><br>
+    출판사: <input name="press" type="text"><br>
+    사진: <input name="file" type="file"><br>
+    페이지: <input name="page" type="number"><br>
+    가격: <input name="price" type="number"><br>
+    독서일: <input name="readDate" type="date"><br>
+    소감*: <textarea name="feed" cols="60" rows="10"></textarea><br>
     별표(*) 항목은 필수 입력 항목입니다.<br>
     <button id="add-btn" type="button">등록</button>
     <button id="cancel-btn" type="button">취소</button>
   </form>
   <script>
-    var xTitle = document.querySelector("#x-title")
-    var xAuthor = document.querySelector("#x-author")
-    var xPress = document.querySelector("#x-press")
-    var xPage = document.querySelector("#x-page")
-    var xPrice = document.querySelector("#x-price")
-    var xReadDate = document.querySelector("#x-readDate")
-    var xFeed = document.querySelector("#x-feed")
-  
+    var xTitle = document.querySelector("input[name=title]")
+    var xAuthor = document.querySelector("input[name=author]")
+    var xReadDate = document.querySelector("input[name=readDate]")
+    var xFeed = document.querySelector("textarea")
+    
     document.querySelector("#add-btn").onclick = function() {
       if (xTitle.value == "" || xAuthor.value == "" || xFeed.value == "") {
         window.alert("필수 입력 항목이 비었습니다.")
         return
       }
-      var qs = `title=${xTitle.value}&author=${xAuthor.value}&press=${xPress.value}&page=${xPage.value}&price=${xPrice.value}&feed=${xFeed.value}`
+      
+      var fd = new FormData(document.forms.namedItem("form1"))
 
-      if (xReadDate.value != "") {
-        qs += `&readDate=${xReadDate.value}`
-        console.log(qs)
+      if (xReadDate.value == "") {
+        fd.delete("readDate")
       }
 
-      fetch(`/book/add?${qs}`)
+      fetch("/book/add", {
+        method: "POST",
+        body: fd
+      })
       .then(function(response){
         return response.text();
       })
