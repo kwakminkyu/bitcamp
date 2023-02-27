@@ -6,9 +6,11 @@
 </head>
 <body>
   <h1>수정하기</h1>
-  <form>
-    제목: <input id="x-title" type="text"><br>
-    내용: <textarea id="x-content" cols="60" rows="10"></textarea><br>
+  <form name="form1">
+    번호: <input name="no" type="text" readonly><br>
+    제목: <input name="title" type="text"><br>
+    내용: <textarea name="content" cols="60" rows="10"></textarea><br>
+    작성자: <span id="x-writer"></span><br>
     조회수: <span id="x-viewCount"></span><br>
     작성일: <span id="x-createdDate"></span><br>
     <button id="update-btn" type="button">변경</button>
@@ -16,8 +18,10 @@
     <button id="cancel-btn" type="button">취소</button>
   </form>
   <script>
-    var xTitle = document.querySelector("#x-title")
-    var xContent = document.querySelector("#x-content")
+    var xNo = document.querySelector("input[name=no]")
+    var xTitle = document.querySelector("input[name=title]")
+    var xContent = document.querySelector("textarea")
+    var xWriter = document.querySelector("#x-writer")
     var xViewCount = document.querySelector("#x-viewCount")
     var xCreatedDate = document.querySelector("#x-createdDate")
 
@@ -47,8 +51,10 @@
     .then(function(board){
     // 화면에 내용 출력
       console.log(board)
+      xNo.value = board.no
       xTitle.value = board.title
       xContent.value = board.content
+      xWriter.innerHTML = board.writer.name
       xViewCount.innerHTML = board.viewCount
       xCreatedDate.innerHTML = board.createdDate
     })
@@ -58,16 +64,35 @@
         window.alert("항목이 비었습니다.")
         return
       }
-      fetch(`/board/update?no=${no}&title=${xTitle.value}&content=${xContent.value}`)
-      .then(function(){
-        location.href = "index.html"
+
+      var fd = new FormData(document.forms.namedItem("form1"))
+
+      fetch("/board/update", {
+        method: "POST",
+        body: new URLSearchParams(fd)
+      }).then(function(response){
+        return response.json()
+      }).then(function(result){
+        if (result.status == "success") {
+          location.href = "index.html"
+        } else {
+          alert("게시글 변경 실패")
+          console.log(result.data)
+        }
       })
     }
 
     document.querySelector("#delete-btn").onclick = function() {
       fetch(`/board/delete?no=${no}`)
-      .then(function(){
-        location.href = "index.html"
+      .then(function(response){
+        return response.json()
+      }).then(function(result){
+        if (result.status == "success") {
+          location.href = "index.html"
+        } else {
+          alert("게시글 삭제 실패")
+          console.log(result.data)
+        }
       })
     }
     

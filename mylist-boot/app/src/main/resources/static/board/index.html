@@ -9,7 +9,9 @@
   <p><a href="form.html">새 게시글</a></p>
   <table border="1">
     <thead>
+      <th>번호</th>
       <th>제목</th>
+      <th>작성자</th>
       <th>조회수</th>
       <th>작성일</th>
     </thead>
@@ -29,7 +31,9 @@
       console.log(boards)
       for (board of boards) {
       var tr = document.createElement("tr")
-      tr.innerHTML = `<td><a href="view.html?no=${board.no}">${board.title}</a></td>
+      tr.innerHTML = `<td>${board.no}</td>
+                      <td><a href="view.html?no=${board.no}">${board.title}</a></td>
+                      <td>${board.writer.name}</td>
                       <td>${board.viewCount}</td>
                       <td>${board.createdDate}</td>`
       tbody.appendChild(tr)

@@ -5,7 +5,7 @@
 <mapper namespace="com.bitcamp.mylist.dao.MemberDao">
   
   <resultMap id="memberMap" type="member">
-    <id column="member_no" property="no"/>
+    <id column="no" property="no"/>
     <result column="name" property="name"/>
     <result column="email" property="email"/>
     <result column="regist_date" property="registDate"/>
