@@ -8,6 +8,7 @@ import com.bitcamp.mylist.service.MemberService;
 
 @Service
 public class DefaulMemberService implements MemberService {
+
   @Autowired
   MemberDao memberDao;
 
@@ -19,5 +20,10 @@ public class DefaulMemberService implements MemberService {
   @Override
   public Member get(String email, String password) {
     return memberDao.findByEmailAndPassword(email, password);
+  }
+
+  @Override
+  public Member get(String email) {
+    return memberDao.findByEmail(email);
   }
 }

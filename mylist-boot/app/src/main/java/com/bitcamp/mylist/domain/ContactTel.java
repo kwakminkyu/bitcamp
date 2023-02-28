@@ -1,8 +1,10 @@
 package com.bitcamp.mylist.domain;
 
 import lombok.Data;
+import lombok.experimental.Accessors;
 
 @Data
+@Accessors(chain = true)
 public class ContactTel {
 
   int no;
