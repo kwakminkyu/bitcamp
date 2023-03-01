@@ -1,0 +1,39 @@
+    body {
+      font-size: small;
+    }
+    .container {
+      position: relative;
+      width: 600px;
+      margin: 0px auto;
+    }
+    #header{
+      position: relative;
+      background-color: navy;
+      color: white;
+      height: 50px;
+      display: flex;
+      align-items: center;
+      padding: 0px 10px;
+    }
+    #footer {
+      font-size: 0.8em;
+      background-color: gray;
+      height: 20px;
+      padding: 10px;
+      margin-top: 10px;
+    }
+    #sidebar {
+      position: absolute;
+      left: 0px;
+      top: 50px;
+      background-color: skyblue;
+      box-sizing: border-box;
+      width: 120px;
+      min-height: 200px;
+      padding: 0px 10px;
+    }
+    #content {
+      margin-left: 120px;
+      padding: 0px 10px;
+      min-height: 200px;
+    }

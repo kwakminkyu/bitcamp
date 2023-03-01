@@ -3,20 +3,34 @@
 <head>
   <meta charset="UTF-8">
   <title>게시판</title>
+  <link rel="stylesheet" href="../css/common.css">
 </head>
 <body>
-  <h1>수정하기</h1>
-  <form name="form1">
-    번호: <input name="no" type="text" readonly><br>
-    제목: <input name="title" type="text"><br>
-    내용: <textarea name="content" cols="60" rows="10"></textarea><br>
-    작성자: <span id="x-writer"></span><br>
-    조회수: <span id="x-viewCount"></span><br>
-    작성일: <span id="x-createdDate"></span><br>
-    <button id="update-btn" type="button">변경</button>
-    <button id="delete-btn" type="button">삭제</button>
-    <button id="cancel-btn" type="button">취소</button>
-  </form>
+  <div class="container">
+    <div id="header"></div>
+    <div id="sidebar"></div>
+    <div id="content">
+      <h1>수정하기</h1>
+      <form name="form1">
+        번호: <input name="no" type="text" readonly><br>
+        제목: <input name="title" type="text"><br>
+        내용: <textarea name="content" cols="50" rows="10"></textarea><br>
+        작성자: <span id="x-writer"></span><br>
+        조회수: <span id="x-viewCount"></span><br>
+        작성일: <span id="x-createdDate"></span><br>
+        <button id="update-btn" type="button">변경</button>
+        <button id="delete-btn" type="button">삭제</button>
+        <button id="cancel-btn" type="button">취소</button>
+      </form>
+    </div>
+    <div id="footer"></div>
+  </div>
+  <script src="../node_modules/jquery/dist/jquery.min.js"></script>
+  <script>
+    $("#header").load("../header.html")
+    $("#footer").load("../footer.html")
+    $("#sidebar").load("../sidebar.html")
+  </script>
   <script>
     var xNo = document.querySelector("input[name=no]")
     var xTitle = document.querySelector("input[name=title]")
@@ -28,8 +42,8 @@
     //쿼리스트링 추출
     var arr = location.href.split("?")
     if (arr.length == 1) {
-    alert("요청 형식이 올바르지 않습니다.")
-    throw "URL 형식 오류"
+      alert("요청 형식이 올바르지 않습니다.")
+      throw "URL 형식 오류"
     }
     var qs = arr[1]
 
@@ -39,8 +53,8 @@
     console.log(no)
     
     if (no == null) {
-    alert("이메일 값이 없습니다.");
-    throw "파라미터 오류";
+      alert("이메일 값이 없습니다.");
+      throw "파라미터 오류";
     }
   
     //서버에서 데이터 가져오기

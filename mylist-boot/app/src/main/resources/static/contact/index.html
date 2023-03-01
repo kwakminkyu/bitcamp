@@ -1,49 +1,40 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>연락처</title>
-</head>
-<body>
-  <h1>연락처</h1>
-  <p><a href="form.html">새 연락처</a></p>
-  <table border="1">
-    <thead>
-      <th>번호</th>
-      <th>이름</th>
-      <th>이메일</th>
-      <th>전화</th>
-      <th>회사</th>
-    </thead>
-    <tbody id="contact-tbl">
+<h1>연락처</h1>
+<p><a href="?content=/contact/form.html">새 연락처</a></p>
+<table border="1">
+  <thead>
+    <th>번호</th>
+    <th>이름</th>
+    <th>이메일</th>
+    <th>전화</th>
+    <th>회사</th>
+  </thead>
+  <tbody id="contact-tbl">
 
-    </tbody>
-  </table>
+  </tbody>
+</table>
 
-  <script id="tr-template" type="text/x-handlebars-template">
-    {{#each this}}
-      <tr>
-        <td><a href="view.html?no={{no}}">{{no}}</a></td>
-        <td>{{name}}</td>
-        <td>{{email}}</td>
-        <td>{{tels.[0].tel}}</td>
-        <td>{{company}}</td>
-      </tr>
-    {{/each}}
-  </script>
+<script id="tr-template" type="text/x-handlebars-template">
+  {{#each this}}
+    <tr>
+      <td><a href="?content=/contact/view.html?no={{no}}">{{no}}</a></td>
+      <td>{{name}}</td>
+      <td>{{email}}</td>
+      <td>{{tels.[0].tel}}</td>
+      <td>{{company}}</td>
+    </tr>
+  {{/each}}
+</script>
 
-  <script src="../node_modules/handlebars/dist/handlebars.min.js"></script>
-  <script>
-    var tbody = document.querySelector("#contact-tbl")
-    var htmlGenerator = Handlebars.compile(document.querySelector("#tr-template").innerHTML)
+<script src="../node_modules/handlebars/dist/handlebars.min.js"></script>
+<script>
+  var tbody = document.querySelector("#contact-tbl")
+  var htmlGenerator = Handlebars.compile(document.querySelector("#tr-template").innerHTML)
 
-    fetch("/contact/list")
-    .then(function(response){
-      return response.json();
-    })
-    .then(function(contact){
-      tbody.innerHTML = htmlGenerator(contact)
-    })
-  </script>
-</body>
-</html>
+  fetch("/contact/list")
+  .then(function(response){
+    return response.json();
+  })
+  .then(function(contact){
+    tbody.innerHTML = htmlGenerator(contact)
+  })
+</script>

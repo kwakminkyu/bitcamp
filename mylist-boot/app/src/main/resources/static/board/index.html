@@ -3,23 +3,36 @@
 <head>
   <meta charset="UTF-8">
   <title>게시판</title>
+  <link rel="stylesheet" href="../css/common.css">
 </head>
 <body>
-  <h1>게시판</h1>
-  <p><a href="form.html">새 게시글</a></p>
-  <table border="1">
-    <thead>
-      <th>번호</th>
-      <th>제목</th>
-      <th>작성자</th>
-      <th>조회수</th>
-      <th>작성일</th>
-    </thead>
-    <tbody id="board-tbl">
+  <div class="container">
+    <div id="header"></div>
+    <div id="sidebar"></div>
+    <div id="content">
+      <h1>게시판</h1>
+      <p><a href="form.html">새 게시글</a></p>
+      <table border="1">
+        <thead>
+          <th>번호</th>
+          <th>제목</th>
+          <th>작성자</th>
+          <th>조회수</th>
+          <th>작성일</th>
+        </thead>
+        <tbody id="board-tbl">
 
-    </tbody>
-  </table>
-
+        </tbody>
+      </table>
+    </div>
+    <div id="footer"></div>
+  </div>
+  <script src="../node_modules/jquery/dist/jquery.min.js"></script>
+  <script>
+    $("#header").load("../header.html")
+    $("#footer").load("../footer.html")
+    $("#sidebar").load("../sidebar.html")
+  </script>
   <script>
     var tbody = document.querySelector("#board-tbl")
 
