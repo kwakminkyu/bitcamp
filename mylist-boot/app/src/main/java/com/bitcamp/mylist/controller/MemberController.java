@@ -3,6 +3,8 @@ package com.bitcamp.mylist.controller;
 import static com.bitcamp.mylist.controller.ResultMap.FAIL;
 import static com.bitcamp.mylist.controller.ResultMap.SUCCESS;
 import java.util.Map;
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -27,12 +29,21 @@ public class MemberController {
   }
 
   @RequestMapping("/member/signin")
-  public Object signIn(String email, String password, HttpSession session) {
+  public Object signIn(String email, String password, boolean saveEmail, HttpServletResponse response, HttpSession session) {
     Member loginUser = memberService.get(email, password);
     if (loginUser == null) {
       return "fail";
     }
     session.setAttribute("loginUser", loginUser);
+
+    Cookie cookie = null;
+    if (saveEmail) {
+      cookie = new Cookie("userEmail", email);
+    } else {
+      cookie = new Cookie("userEmail", "");
+      cookie.setMaxAge(0);
+    }
+    response.addCookie(cookie);
     return "success";
   }
 
