@@ -62,7 +62,14 @@
     .then(function(response){
       return response.json()
     })
-    .then(function(board){
+    .then(function(result){
+      if (result.status == "fail") {
+    	  window.alert("서버 요청 오류!");
+    	  console.log(result.data);
+    	  return;
+      }
+      
+      var board = result.data;
     // 화면에 내용 출력
       console.log(board)
       xNo.value = board.no
