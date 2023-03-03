@@ -27,14 +27,20 @@ public class DefaultTodoService implements TodoService {
   }
 
   @Override
+  public Todo get(int no) {
+    return todoDao.findByNo(no);
+  }
+
+  @Override
   @Transactional
   public int update(Todo todo) {
     return todoDao.update(todo);
   }
 
   @Override
-  public Object check(int no, boolean done) {
-    return todoDao.updateDone(no, done);
+  @Transactional
+  public int updateStatus(Todo todo) {
+    return todoDao.updateDone(todo.getNo(), todo.isDone());
   }
 
   @Override

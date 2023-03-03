@@ -12,6 +12,8 @@ public interface TodoDao {
 
   List<Todo> findAll();
 
+  Todo findByNo(int no);
+
   void insert(Todo todo);
 
   int update(Todo todo);

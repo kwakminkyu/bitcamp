@@ -9,9 +9,11 @@ public interface TodoService {
 
   List<Todo> list();
 
+  Todo get(int no);
+
   int update(Todo todo);
 
-  Object check(int no, boolean done);
+  int updateStatus(Todo todo);
 
   int delete(int no);
 }
