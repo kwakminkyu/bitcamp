@@ -11,10 +11,12 @@ import com.bitcamp.mylist.interceptor.AuthInterceptor;
 public class MvcConfiguration implements WebMvcConfigurer{
 
   private static final Logger log = LogManager.getLogger(MvcConfiguration.class);
+  private static final Logger log2 = LogManager.getLogger("spring-boot-setting");
 
   @Override
   public void addInterceptors(InterceptorRegistry registry) {
     log.debug("MvcConfiguration.addInterceptors() 호출됨");
+    log2.debug("인터셉터 호출");
 
     registry.addInterceptor(new AuthInterceptor())
     .addPathPatterns("/**/add", "/**/update", "/**/delete");

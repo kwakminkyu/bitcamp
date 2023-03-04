@@ -7,7 +7,10 @@
     </Console>
   </Appenders>
   <Loggers>
-    <Logger name="com.eomcs.mylist" level="debug">
+    <Logger name="com.eomcs.mylist" level="info">
+      <AppenderRef ref="stdout"/>
+    </Logger>
+    <Logger name="spring_boot_setting" level="debug">
       <AppenderRef ref="stdout"/>
     </Logger>
     <Root level="info">

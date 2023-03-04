@@ -14,11 +14,14 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 public class AuthInterceptor implements HandlerInterceptor{
 
   private static final Logger log = LogManager.getLogger(AuthInterceptor.class);
+  private static final Logger log2 = LogManager.getLogger("spring-boot-setting");
 
   @Override
   public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
       throws Exception {
     log.trace("preHandle 호출");
+    log2.debug("인터셉터 실행");
+
     HttpSession session =request.getSession();
     Member loginUser = (Member) session.getAttribute("loginUser");
     if (loginUser == null) {
