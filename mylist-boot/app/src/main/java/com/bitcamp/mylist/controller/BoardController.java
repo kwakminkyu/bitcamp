@@ -3,6 +3,8 @@ package com.bitcamp.mylist.controller;
 import static com.bitcamp.mylist.controller.ResultMap.FAIL;
 import static com.bitcamp.mylist.controller.ResultMap.SUCCESS;
 import javax.servlet.http.HttpSession;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -13,21 +15,22 @@ import com.bitcamp.mylist.service.BoardService;
 @RestController
 public class BoardController {
 
+  private static final Logger log = LogManager.getLogger(BoardController.class);
+
   @Autowired
   BoardService boardService;
 
-  public BoardController() {
-    System.out.println("BoardController() 호출됨!");
-  }
-
   @RequestMapping("/board/list")
   public Object list() {
+    log.info("게시물 목록 조회");
     return new ResultMap().setStatus(SUCCESS).setData(boardService.list());
   }
 
   @RequestMapping("/board/add")
   public Object add(Board board, HttpSession session) {
-    System.out.println("BoardController.add() 호출됨!");
+    log.info("게시글 등록");
+    log.debug(board);
+
     Member member = (Member) session.getAttribute("loginUser");
     board.setWriter(member);
     boardService.add(board);

@@ -4,7 +4,11 @@ import static com.bitcamp.mylist.controller.ResultMap.FAIL;
 import static com.bitcamp.mylist.controller.ResultMap.SUCCESS;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.PrintWriter;
+import java.io.StringWriter;
 import java.util.UUID;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.core.io.Resource;
@@ -21,12 +25,10 @@ import net.coobird.thumbnailator.Thumbnails;
 @RestController
 public class BookController {
 
+  private static final Logger log = LogManager.getLogger(BookController.class);
+
   @Autowired
   BookService bookService;
-
-  public BookController() throws Exception {
-    System.out.println("BookController() 호출됨!");
-  }
 
   @RequestMapping("/book/list")
   public Object list() {
@@ -39,8 +41,12 @@ public class BookController {
       book.setPhoto(saveFile(file));
       bookService.add(book);
       return new ResultMap().setStatus(SUCCESS);
+
     } catch (Exception e) {
-      e.printStackTrace();
+      StringWriter out = new StringWriter();
+      e.printStackTrace(new PrintWriter(out));
+      log.error(out.toString());
+
       return new ResultMap().setStatus(FAIL);
     }
   }
